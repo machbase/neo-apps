@@ -1,0 +1,9 @@
+QUERY(
+    'value',
+    from('tag', param('tag') ?? 'vibration'),
+    between('last-5s', 'last'),
+    limit(100)
+
+)
+MAPVALUE(0, roundTime(value(0), '1s'))
+JSON(timeformat('DEFAULT'))
