@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<title>ECharts Realtime Chart</title>
+<script src="https://cdn.jsdelivr.net/npm/echarts/dist/echarts.min.js"></script>
+<style>
+    .chart-row {
+        display: flex;
+        justify-content: space-around;
+        margin-bottom: 10px;
+    }
+    .chart-container {
+        width: 48%; /* 차트 너비를 조정하여 한 줄에 두 개씩 배치 */
+        height: 300px;
+    }
+
+    /* 화면 크기가 768px 이하일 때의 스타일 */
+    @media (max-width: 1280px) {
+        .chart-container {
+            width: 100%; /* 차트 너비를 100%로 조정하여 한 줄에 하나씩 배치 */
+        }
+        .chart-row {
+            flex-direction: column; /* 차트를 세로로 나열 */
+        }
+    }
+</style>
+</head>
+<body>
+
+<div class="chart-row">
+    <div id="chart" class="chart-container"></div>
+    <div id="chart1" class="chart-container"></div>
+</div>
+<div class="chart-row">
+    <div id="chart2" class="chart-container"></div>
+    <div id="chart3" class="chart-container"></div>
+</div>
+<div class="chart-row">
+    <div id="chart4" class="chart-container"></div>
+    <div id="chart5" class="chart-container"></div>
+</div>
+
+<script>
+// JavaScript 코드는 동일하게 유지하되, 각 차트의 초기화 및 옵션 설정 부분을 포함합니다.
+// 예를 들어:
+var chartDom = document.getElementById('chart');
+var myChart = echarts.init(chartDom);
+
+var chartDom1 = document.getElementById('chart1'); // 새 차트를 위한 DOM 요소
+var myChart1 = echarts.init(chartDom1); // 새 차트 초기화
+
+var chartDom2 = document.getElementById('chart2'); // 새 차트를 위한 DOM 요소
+var myChart2 = echarts.init(chartDom2); // 새 차트 초기화
+
+var chartDom3 = document.getElementById('chart3'); // 새 차트를 위한 DOM 요소
+var myChart3 = echarts.init(chartDom3); // 새 차트 초기화
+
+var chartDom4 = document.getElementById('chart4'); // 새 차트를 위한 DOM 요소
+var myChart4 = echarts.init(chartDom4); // 새 차트 초기화
+
+var chartDom5 = document.getElementById('chart5'); // 새 차트를 위한 DOM 요소
+var myChart5 = echarts.init(chartDom5); // 새 차트 초기화
+
+var option;
+
+option = {
+    title: {
+    text: 'Realtime Data Chart : Vibration'
+    },
+    tooltip: {
+        trigger: 'axis'
+    },
+    xAxis: {
+        type: 'category',
+        data: [] // Time
+    },
+    yAxis: {
+        type: 'value'
+    },
+    series: [
+        {
+            data: [], // Value
+            type: 'line',
+            smooth: true,
+            lineStyle : { color : 'purple'}
+        }
+    ]
+};
+
+option1 = {
+    title: {
+    text: 'Realtime Data Chart : TAG-SENSOR1'
+    },
+    tooltip: {
+        trigger: 'axis'
+    },
+    xAxis: {
+        type: 'category',
+        data: [] // Time
+    },
+    yAxis: {
+        type: 'value'
+    },
+    series: [
+        {
+            data: [], // Value
+            type: 'line',
+            smooth: true
+        }
+    ]
+};
+
+option2 = {
+    title: {
+    text: 'Realtime Data Chart : TAG-SENSOR2'
+    },
+    tooltip: {
+        trigger: 'axis'
+    },
+    xAxis: {
+        type: 'category',
+        data: [] // Time
+    },
+    yAxis: {
+        type: 'value'
+    },
+    series: [
+        {
+            data: [], // Value
+            type: 'line',
+            smooth: true,
+            lineStyle : { color : 'black'}
+        }
+    ]
+};
+
+option3 = {
+    title: {
+    text: 'Realtime Data Chart : TAG-SENSOR3'
+    },
+    tooltip: {
+        trigger: 'axis'
+    },
+    xAxis: {
+        type: 'category',
+        data: [] // Time
+    },
+    yAxis: {
+        type: 'value'
+    },
+    series: [
+        {
+            data: [], // Value
+            type: 'line',
+            smooth: true,
+            lineStyle : { color : 'magenta'}
+        }
+    ]
+};
+
+option4 = {
+    title: {
+    text: 'Realtime Data Chart : TAG-SENSOR4'
+    },
+    tooltip: {
+        trigger: 'axis'
+    },
+    xAxis: {
+        type: 'category',
+        data: [] // Time
+    },
+    yAxis: {
+        type: 'value'
+    },
+    series: [
+        {
+            data: [], // Value
+            type: 'line',
+            smooth: true,
+            lineStyle : { color : 'green'}
+        }
+    ]
+};
+
+option5 = {
+    title: {
+    text: 'Realtime Data Chart : TAG-SENSOR5'
+    },
+    tooltip: {
+        trigger: 'axis'
+    },
+    xAxis: {
+        type: 'category',
+        data: [] // Time
+    },
+    yAxis: {
+        type: 'value'
+    },
+    series: [
+        {
+            data: [], // Value
+            type: 'line',
+            smooth: true,
+            lineStyle : { color : 'red'}
+        }
+    ]
+};
+
+
+// 윈도우 크기 변경 이벤트 리스너를 추가합니다.
+window.addEventListener('resize', function () {
+    // 각 차트의 resize 메소드를 호출하여 크기를 조정합니다.
+    myChart.resize();
+    myChart1.resize();
+    myChart2.resize();
+    myChart3.resize();
+    myChart4.resize();
+    myChart5.resize();
+    // 다른 차트들에 대해서도 동일하게 적용합니다.
+});
+
+myChart.setOption(option);
+myChart1.setOption(option1); // 새 차트에 옵션 설정
+myChart2.setOption(option2); // 새 차트에 옵션 설정
+myChart3.setOption(option3); // 새 차트에 옵션 설정
+myChart4.setOption(option4); // 새 차트에 옵션 설정
+myChart5.setOption(option5); // 새 차트에 옵션 설정
+
+function fetchData() {
+    fetch('http://127.0.0.1:5654/db/tql/chart2-vibration.tql?tag=vibration')
+        .then(response => response.json())
+        .then(data => {
+
+            // init chart data
+            option.xAxis.data = [];
+            option.series[0].data = [];
+
+            data.data.rows.forEach(row => {
+                var time = row[0];
+                var value = row[1];
+
+                option.xAxis.data.push(time);
+                option.series[0].data.push(value);
+            });
+
+            myChart.setOption(option);
+        })
+        .catch(error => console.error('Error fetching data: ', error));
+
+    fetch('http://127.0.0.1:5654/db/tql/chart1-data.tql?tag=TAG-SENSOR1')
+        .then(response => response.json())
+        .then(data => {
+
+            // init chart data
+            option1.xAxis.data = [];
+            option1.series[0].data = [];
+
+            data.data.rows.forEach(row => {
+                var time = row[0];
+                var value = row[1];
+
+                option1.xAxis.data.push(time);
+                option1.series[0].data.push(value);
+            });
+
+            myChart1.setOption(option1); // 새 차트에 데이터 업데이트
+        })
+        .catch(error => console.error('Error fetching data: ', error));
+
+    fetch('http://127.0.0.1:5654/db/tql/chart1-data.tql?tag=TAG-SENSOR2')
+        .then(response => response.json())
+        .then(data => {
+
+            // init chart data
+            option2.xAxis.data = [];
+            option2.series[0].data = [];
+
+            data.data.rows.forEach(row => {
+                var time = row[0];
+                var value = row[1];
+
+                option2.xAxis.data.push(time);
+                option2.series[0].data.push(value);
+            });
+
+            myChart2.setOption(option2); // 새 차트에 데이터 업데이트
+        })
+        .catch(error => console.error('Error fetching data: ', error));
+
+    fetch('http://127.0.0.1:5654/db/tql/chart1-data.tql?tag=TAG-SENSOR3')
+        .then(response => response.json())
+        .then(data => {
+
+            // init chart data
+            option3.xAxis.data = [];
+            option3.series[0].data = [];
+
+            data.data.rows.forEach(row => {
+                var time = row[0];
+                var value = row[1];
+
+                option3.xAxis.data.push(time);
+                option3.series[0].data.push(value);
+            });
+
+            myChart3.setOption(option3); // 새 차트에 데이터 업데이트
+        })
+        .catch(error => console.error('Error fetching data: ', error));
+
+    fetch('http://127.0.0.1:5654/db/tql/chart1-data.tql?tag=TAG-SENSOR4')
+        .then(response => response.json())
+        .then(data => {
+
+            // init chart data
+            option4.xAxis.data = [];
+            option4.series[0].data = [];
+
+            data.data.rows.forEach(row => {
+                var time = row[0];
+                var value = row[1];
+
+                option4.xAxis.data.push(time);
+                option4.series[0].data.push(value);
+            });
+
+            myChart4.setOption(option4); // 새 차트에 데이터 업데이트
+        })
+        .catch(error => console.error('Error fetching data: ', error));
+
+    fetch('http://127.0.0.1:5654/db/tql/chart1-data.tql?tag=TAG-SENSOR5')
+        .then(response => response.json())
+        .then(data => {
+
+            // init chart data
+            option5.xAxis.data = [];
+            option5.series[0].data = [];
+
+            data.data.rows.forEach(row => {
+                var time = row[0];
+                var value = row[1];
+
+                option5.xAxis.data.push(time);
+                option5.series[0].data.push(value);
+            });
+
+            myChart5.setOption(option5); // 새 차트에 데이터 업데이트
+        })
+        .catch(error => console.error('Error fetching data: ', error));
+
+}
+
+setInterval(fetchData, 1000);
+
+</script>
+
+</body>
+</html>
