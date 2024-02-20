@@ -5,5 +5,3 @@ FAKE(
 )
 PUSHVALUE(0, "vibration", "name")
 APPEND(table("tag"))
-//MARKDOWN()
-//CHART_LINE()
