@@ -1,0 +1,9 @@
+QUERY(
+    'value',
+    from('tag', param('tag') ?? 'TAG-SENSOR1'),
+    between('last-20s', 'last'),
+    limit(20)
+
+)
+MAPVALUE(0, roundTime(value(0), '1s'))
+JSON(timeformat('DEFAULT'))

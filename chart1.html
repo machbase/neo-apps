@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<title>ECharts Realtime Chart</title>
+<script src="https://cdn.jsdelivr.net/npm/echarts/dist/echarts.min.js"></script>
+<style>
+    #chart {
+        width: 800px;
+        height: 400px;
+    }
+</style>
+</head>
+<body>
+
+<div id="chart"></div>
+
+<script>
+var chartDom = document.getElementById('chart');
+var myChart = echarts.init(chartDom);
+var option;
+
+option = {
+    title: {
+    text: 'Realtime Data Chart : TAG-SENSOR4'
+    },
+    tooltip: {
+        trigger: 'axis'
+    },
+    xAxis: {
+        type: 'category',
+        data: [] // Time
+    },
+    yAxis: {
+        type: 'value'
+    },
+    series: [
+        {
+            data: [], // Value
+            type: 'line',
+            smooth: true
+        }
+    ]
+};
+
+myChart.setOption(option);
+
+function fetchData() {
+    fetch('http://127.0.0.1:5654/db/tql/chart1-data.tql?tag=TAG-SENSOR4')
+        .then(response => response.json())
+        .then(data => {
+
+            // init chart data
+            option.xAxis.data = [];
+            option.series[0].data = [];
+
+            data.data.rows.forEach(row => {
+                var time = row[0];
+                var value = row[1];
+
+                option.xAxis.data.push(time);
+                option.series[0].data.push(value);
+            });
+
+            myChart.setOption(option);
+        })
+        .catch(error => console.error('Error fetching data: ', error));
+}
+
+setInterval(fetchData, 1000);
+
+</script>
+
+</body>
+</html>
