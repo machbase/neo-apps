@@ -1,0 +1,9 @@
+FAKE(
+    oscillator(
+        freq(2, random() * 30), 
+        range('now', '1s', '50ms')) 
+)
+PUSHVALUE(0, "vibration", "name")
+APPEND(table("tag"))
+//MARKDOWN()
+//CHART_LINE()

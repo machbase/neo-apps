@@ -1,0 +1,11 @@
+FAKE(
+    csv(strSprintf(`TIME,SENSOR1,SENSOR2,SENSOR3,SENSOR4,SENSOR5
+                    %s,%f,%f,%f,%f,%f`, strTime(time('now'), 'DEFAULT','UTC'), 
+                    random(), random(),random(), random(),random())))
+
+TRANSPOSE(header(true), fixed(0))
+PUSHVALUE(0, 'TAG-' + strTrimSpace(value(1)), "name")
+MAPVALUE(1, parseTime(value(1), 'DEFAULT','UTC'), 'time')
+POPVALUE(2)
+MAPVALUE(2, parseFloat(value(2)), "value")
+APPEND(table("tag"))
