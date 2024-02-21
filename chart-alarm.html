@@ -46,6 +46,7 @@
     <div id="chart5" class="chart-container"></div>
 </div>
 <div class="chart-row">
+    <div id="chart6" class="chart-container"></div>
     <div id="table-container"></div>
 </div>
 
@@ -58,11 +59,12 @@ var titles = [
     'Realtime Data Chart : TAG-SENSOR2',
     'Realtime Data Chart : TAG-SENSOR3',
     'Realtime Data Chart : TAG-SENSOR4',
-    'Realtime Data Chart : TAG-SENSOR5'
+    'Realtime Data Chart : TAG-SENSOR5',
+    'Realtime Data Chart : TAG-SENSOR6'
 ];
-var lineColors = ['purple', '', 'black', 'magenta', 'green', 'red'];
+var lineColors = ['purple', '', 'black', 'magenta', 'green', 'red', 'black'];
 
-for (var i = 0; i < 6; i++) {
+for (var i = 0; i < 7; i++) {
     var chartDom = document.getElementById('chart' + i);
     var myChart = echarts.init(chartDom);
     charts.push(myChart);
