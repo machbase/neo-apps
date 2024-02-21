@@ -1,0 +1,21 @@
+FAKE(
+    csv(strSprintf(`TIME,SENSOR6
+                    %s,%f`, strTime(time('now'), 'DEFAULT','UTC'), 
+                    random()*3)))
+
+TRANSPOSE(header(true), fixed(0))
+PUSHVALUE(0, 'TAG-' + strTrimSpace(value(1)), "name")
+MAPVALUE(1, parseTime(value(1), 'DEFAULT','UTC'), 'time')
+POPVALUE(2)
+MAPVALUE(2, parseFloat(value(2)), "value")
+
+WHEN((glob("TAG-SENSOR6", value(0)) == true && (value(2) > 2.5)), 
+      do( value(0), value(1), value(2), {
+        ARGS()
+        INSERT("name", "time", "value", table("alarm"))    
+        }
+      )
+    )
+FILTER(!(glob("TAG-SENSOR6", value(0)) == true && value(2) > 2.5))
+
+APPEND(table("tag"))
