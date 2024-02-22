@@ -43,19 +43,26 @@
             display: flex;
             flex-direction: column;
         }
+
         table {
             width: 100%;
             border-collapse: collapse;
             margin-top: 10px;
+            text-align: center; /* 수평 중앙 정렬 */
+            vertical-align: middle; /* 수직 중앙 정렬 */
         }
         th, td {
             border: 1px solid #ddd;
             padding: 8px;
             text-align: left;
+            text-align: center; /* 수평 중앙 정렬 */
+            vertical-align: middle; /* 수직 중앙 정렬 */
         }
         th {
             background-color: #4CAF50;
             color: white;
+            text-align: center; /* 수평 중앙 정렬 */
+            vertical-align: middle; /* 수직 중앙 정렬 */
         }
         tr:nth-child(even){background-color: #f2f2f2}
         tr:hover {background-color: #ddd;}
@@ -74,7 +81,7 @@
     </div>
     <div class="chart-row">
         <div id="chart1" class="chart-container"></div>
-        <div id="chart2" class="chart-container"></div>
+        <div id="chart2" class="chart-container">                   </div>
     </div>
     <div class="chart-row">
         <div id="chart3" class="chart-container"></div>
@@ -185,11 +192,28 @@ function fetchData() {
                             <td>${row[2]}</td> <!-- VALUE -->
                           </tr>`;
             });
-
-            table += '</table>';
-            container.innerHTML = "<div class='alarm-title'>Alarm for SENSOR6 </div>" + table; // 생성된 테이블로 컨테이너 업데이트
+            table += '</table><br>';
+            btn = "<center><button id='callApiBtn'>Clear Alarm</button> </center>";
+            container.innerHTML = "<div class='alarm-title'>Alarm for SENSOR6 </div>"  + btn + table; // 생성된 테이블로 컨테이너 업데이트
         }
+ 
+    document.getElementById('callApiBtn').addEventListener('click', function() {
+        // 비동기 요청을 시작
+        fetch('http://127.0.0.1:5654/db/tql/neo-apps/live-sensor/delete-alarm-data.tql')
+            .then(response => response.json()) // 응답을 JSON 형태로 파싱
+            .then(data => {
+                // 'success' 값에 따라 메시지를 설정
+                const message = data.success ? "Alarm Clear Success " : "Failed to clear ";
 
+                // 결과를 팝업으로 보여줌
+                //alert(message);
+            })
+            .catch(error => {
+                // 네트워크 오류나 요청 실패 시
+                console.error('API 호출 중 오류 발생:', error);
+                alert("API 호출 중 오류 발생");
+            });
+    });
 }
 
 setInterval(fetchData, 1000);
