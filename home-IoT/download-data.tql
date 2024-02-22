@@ -1,0 +1,9 @@
+QUERY(
+    "name", 'value',
+    from('home', param('sensor') ?? 'TAG-pressure'),
+    between(parseFloat(param('startTime')) * 1000000000, parseFloat(param('endTime')) * 1000000000),
+    limit(param('datalimit')??100)
+    //between('last-10s', 'last')
+)
+
+CSV(timeformat(param('timeformat') ?? 's'), tz(param('timezone') ?? 'Local'))

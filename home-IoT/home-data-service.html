@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home IoT Data Service</title>
+    <style>
+        body {
+            text-align: center;
+            margin-top: 50px;
+            font-family: Arial, sans-serif;
+            background: #f5f5f5; /* 배경색 변경 */
+        }
+        .form-controls {
+            display: inline-block;
+            text-align: center;
+            background: #ffffff; /* 밝은 배경색 */
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* 그림자 효과 */
+            border-radius: 10px; /* 둥근 모서리 */
+            padding: 20px; /* 안쪽 여백 */
+        }
+        .form-control {
+            margin: 10px 5px;
+            padding: 10px;
+            display: inline-block; /* 가로로 배열 */
+        }
+        select, input, button {
+            width: 100%; /* 전체 너비 */
+            padding: 8px; /* 안쪽 여백 */
+            margin-top: 5px; /* 위 여백 */
+            border: 1px solid #ccc; /* 테두리 */
+            border-radius: 5px; /* 둥근 모서리 */
+            box-sizing: border-box; /* 박스 크기 */
+        }
+        button {
+            cursor: pointer; /* 마우스 커서 변경 */
+            background-image: linear-gradient(45deg, #6a5acd, #00bfff); /* 그라디언트 배경 */
+            color: white; /* 글자색 */
+            border: none; /* 테두리 제거 */
+        }
+        button:hover {
+            opacity: 0.9; /* 마우스 오버 시 투명도 */
+        }
+        #result {
+            margin-top: 20px;
+            padding: 20px;
+            border: 1px solid #ddd;
+            display: none; /* 초기에는 결과 영역을 숨김 */
+            border-radius: 5px; /* 둥근 모서리 */
+        }
+    </style>
+</head>
+<body>
+
+<h1>Home IoT Data Service</h1>
+
+<!-- 모든 폼 컨트롤을 하나의 div로 감싸기 -->
+<div class="form-controls">
+    <div class="form-control">
+        <label for="sensor-select">센서 선택:</label>
+        <select id="sensor-select">
+            <option value="">--선택해주세요--</option>
+            <option value="TAG-pressure" selected>TAG-pressure</option>
+    <option value="TAG-Barn [kW]">TAG-Barn [kW] </option>
+    <option value="TAG-Dishwasher [kW]">TAG-Dishwasher [kW] </option>
+    <option value="TAG-Fridge [kW]">TAG-Fridge [kW] </option>
+    <option value="TAG-Furnace 1 [kW]">TAG-Furnace 1 [kW] </option>
+    <option value="TAG-Furnace 2 [kW]">TAG-Furnace 2 [kW] </option>
+    <option value="TAG-Garage door [kW]">TAG-Garage door [kW] </option>
+    <option value="TAG-Home office [kW]">TAG-Home office [kW] </option>
+    <option value="TAG-House overall [kW]">TAG-House overall [kW] </option>
+    <option value="TAG-Kitchen 12 [kW]">TAG-Kitchen 12 [kW] </option>
+    <option value="TAG-Kitchen 14 [kW]">TAG-Kitchen 14 [kW] </option>
+    <option value="TAG-Kitchen 38 [kW]">TAG-Kitchen 38 [kW] </option>
+    <option value="TAG-Living room [kW]">TAG-Living room [kW] </option>
+    <option value="TAG-Microwave [kW]">TAG-Microwave [kW] </option>
+    <option value="TAG-Solar [kW]">TAG-Solar [kW] </option>
+    <option value="TAG-Well [kW]">TAG-Well [kW] </option>
+    <option value="TAG-Wine cellar [kW]">TAG-Wine cellar [kW] </option>
+    <option value="TAG-apparentTemperature">TAG-apparentTemperature </option>
+    <option value="TAG-dewPoint">TAG-dewPoint </option>
+    <option value="TAG-gen [kW]">TAG-gen [kW] </option>
+    <option value="TAG-humidity">TAG-humidity </option>
+    <option value="TAG-precipIntensity">TAG-precipIntensity </option>
+    <option value="TAG-precipProbability">TAG-precipProbability </option>
+    <option value="TAG-pressure">TAG-pressure </option>
+    <option value="TAG-temperature">TAG-temperature </option>
+    <option value="TAG-use [kW]">TAG-use [kW] </option>
+    <option value="TAG-visibility">TAG-visibility </option>
+    <option value="TAG-windBearing">TAG-windBearing </option>
+    <option value="TAG-windSpeed">TAG-windSpeed </option>
+        </select>
+    </div>
+
+    <div class="form-control">
+        <label for="start-time">시작 시간:</label>
+        <input type="datetime-local" id="start-time" name="start-time"
+               value="2016-01-01T14:00" min="2016-01-01T14:00" max="2016-01-02T17:46">
+    </div>
+    <div class="form-control">
+        <label for="end-time">종료 시간:</label>
+        <input type="datetime-local" id="end-time" name="end-time"
+               value="2016-01-02T17:46" min="2016-01-01T14:00" max="2016-01-02T17:46">
+    </div>
+
+    <div class="form-control">
+        <label for="timeformat">타임 포맷:</label>
+        <select id="timeformat">
+            <option value="s" selected>epoch second</option>
+            <option value="ns">epoch nano-second</option>
+            <option value="DEFAULT">DEFAULT</option>
+        </select>
+    </div>
+
+    <div class="form-control">
+        <label for="timezone">타임 존:</label>
+        <select id="timezone">
+            <option value="Local" selected>Local</option>
+            <option value="UTC">UTC</option>
+            <option value="Asia/Seoul">Seoul</option>
+        </select>
+    </div>
+
+    <div class="form-control">
+        <label for="data-type">데이터 타입:</label>
+        <select id="data-type">
+            <option value="csv">CSV</option>
+            <option value="json">JSON</option>
+        </select>
+    </div>
+
+    <div class="form-control">
+        <label for="datalimit">데이터 최대 갯수:</label>
+        <select id="datalimit">
+            <option value=100 selected>100</option>
+            <option value=1000>1,000</option>
+            <option value=10000>10,000</option>
+            <option value=100000>100,000</option>
+            <option value=1000000>1,000,000</option>
+            <option value=10000000>10,000,000</option>
+        </select>
+    </div>
+
+    <div class="form-control">
+        <button id="preview-button">미리보기</button> <button id="download-button">다운로드</button>
+    </div>
+</div>
+<pre>
+<div id="result" class="result" style="display:none;">여기에 결과가 표시됩니다.</div>
+</pre>
+
+<script>
+document.getElementById('preview-button').addEventListener('click', function() {
+    var sensor = document.getElementById('sensor-select').value;
+    var startTime = new Date(document.getElementById('start-time').value).getTime() / 1000; // 밀리초를 초로 변환
+    var endTime = new Date(document.getElementById('end-time').value).getTime() / 1000; // 밀리초를 초로 변환
+    var dataType   = document.getElementById('data-type').value;
+    var timeformat = document.getElementById('timeformat').value;
+    var timezone   = document.getElementById('timezone').value;
+    var datalimit   = document.getElementById('datalimit').value;
+
+    if (!sensor || !startTime || !endTime || !dataType) {
+        alert('모든 옵션을 선택해주세요.');
+        return;
+    }
+
+    // Epoch 시간을 사용하여 데이터 다운로드를 위한 원격 URL 구성
+    var requestUrl = `http://127.0.0.1:5654/db/tql/neo-apps/home-IoT/download-data.tql?sensor=${sensor}&startTime=${encodeURIComponent(startTime)}&endTime=${encodeURIComponent(endTime)}&dataType=${dataType}&timeformat=${timeformat}&timezone=${timezone}&datalimit=${datalimit}`;
+    console.log('요청 URL:', requestUrl);
+
+        
+    fetch(requestUrl)
+        .then(response => response.text()) // 여기서는 텍스트 데이터를 받는다고 가정합니다. JSON이라면 response.json()을 사용하세요.
+        .then(data => {
+            document.getElementById('result').textContent = data; // 받은 데이터를 결과 영역에 표시
+            document.getElementById('result').style.display = 'block'; // 결과 영역을 보이게 설정
+        })
+        .catch(error => console.error('Error:', error));
+});
+
+document.getElementById('download-button').addEventListener('click', function() {
+    var sensor = document.getElementById('sensor-select').value;
+    var startTime = new Date(document.getElementById('start-time').value).getTime() / 1000; // 밀리초를 초로 변환
+    var endTime = new Date(document.getElementById('end-time').value).getTime() / 1000; // 밀리초를 초로 변환
+    var dataType   = document.getElementById('data-type').value;
+    var timeformat = document.getElementById('timeformat').value;
+    var timezone   = document.getElementById('timezone').value;
+    var datalimit   = document.getElementById('datalimit').value;
+
+    if (!sensor || !startTime || !endTime || !dataType) {
+        alert('모든 옵션을 선택해주세요.');
+        return;
+    }
+
+    // Epoch 시간을 사용하여 데이터 다운로드를 위한 원격 URL 구성
+    var requestUrl = `http://127.0.0.1:5654/db/tql/neo-apps/home-IoT/download-data.tql?sensor=${sensor}&startTime=${encodeURIComponent(startTime)}&endTime=${encodeURIComponent(endTime)}&dataType=${dataType}&timeformat=${timeformat}&timezone=${timezone}&datalimit=${datalimit}`;
+    window.location.href = requestUrl;
+});
+</script>
+
+</body>
+</html>

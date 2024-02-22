@@ -1,16 +1,8 @@
-create tag table tag (name varchar(32) primary key, time datetime basetime, value double summarized);
+drop table home cascade;
 
-select count(*) from tag;
+create tag table home (name varchar(32) primary key, time datetime basetime, value double summarized) with rollup;
 
-delete from tag;
+select count(*) from home;
 
-
-create log table alarm (name varchar(32), time datetime, value double);
-
-select * from alarm;
-
-delete from alarm;
-
-
-
+select min(time), max(time) from home;
 
