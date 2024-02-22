@@ -82,7 +82,7 @@ function fetchData() {
             if (i === 0) return; // i가 0일 경우 이후 코드를 실행하지 않고 루프의 다음 반복으로 넘어갑니다.
 
             var tag = 'TAG-SENSOR' + i; // i가 0이 아닐 때만 실행됩니다.
-            fetch('http://127.0.0.1:5654/db/tql/autoload/chart1-data.tql?tag=' + tag)
+            fetch('http://127.0.0.1:5654/db/tql/neo-apps/live-sensor/chart1-data.tql?tag=' + tag)
                   .then(response => response.json())
                   .then((data) => {
                           var option = options[i];
@@ -94,7 +94,7 @@ function fetchData() {
     });
 
     var tag =  'vibration';
-    fetch('http://127.0.0.1:5654/db/tql/autoload/chart2-vibration.tql?tag=vibration')
+    fetch('http://127.0.0.1:5654/db/tql/neo-apps/live-sensor/chart2-vibration.tql?tag=vibration')
         .then(response => response.json())
         .then((data) => {
             var option = options[0];
