@@ -46,7 +46,7 @@ option = {
 myChart.setOption(option);
 
 function fetchData() {
-    fetch('http://127.0.0.1:5654/db/tql/neo-apps/live-sensor/get-chart-data.tql?tag=TAG-SENSOR4')
+    fetch('http://127.0.0.1:5654/db/tql/neo-apps/live-sensor/get-sensor-data.tql?tag=TAG-SENSOR4')
         .then(response => response.json())
         .then(data => {
 
