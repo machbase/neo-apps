@@ -1,0 +1,2 @@
+SQL("delete from alarm")
+JSON()
