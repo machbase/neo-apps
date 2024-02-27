@@ -8,7 +8,7 @@ https://www.kaggle.com/code/offmann/smart-home-dataset/input
 
 1. Copy the web URL.
 
-<img src=./img/clone_weburl.jpg width=400px>
+<img src=./img/readme_1.jpg width=400px>
 
 2. Select Clone action on machbase-neo
 
