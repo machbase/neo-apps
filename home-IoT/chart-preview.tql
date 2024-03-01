@@ -1,0 +1,40 @@
+QUERY(
+    "name", 'value',
+    from(param('table') ?? 'home', param('sensor') ?? 'TAG-pressure'),
+    between(parseFloat(param('startTime')) * 1000000000, parseFloat(param('endTime')) * 1000000000),
+    limit(param('datalimit')??100)
+    
+)
+PUSHVALUE(2, value(0))
+POPVALUE(0, 1)
+MAPVALUE(0, strTime(value(0), param('timeformat') ?? 's', tz(param('timezone') ?? 'Local')))
+//CSV()
+//CSV(timeformat(param('timeformat') ?? 's'), tz(param('timezone') ?? 'Local'))
+//CHART_LINE()
+
+CHART(
+    chartOption({
+        dataZoom: [
+        {
+            type: 'slider', // 슬라이더 타입의 데이터 줌
+            start: 0, // 초기 줌 범위의 시작 (0%)
+            end: 50 // 초기 줌 범위의 끝 (100%)
+        },
+        {
+            type: 'inside', // 마우스 휠과 드래그를 통한 내부 줌
+            start: 0,
+            end: 100
+        }
+        ],
+        xAxis: { data: column(0) },
+        yAxis: {},
+        series: [
+            {
+                type: "line", 
+                name: "value", 
+                smooth: false, 
+                data: column(1)
+            }
+        ]
+    })
+)

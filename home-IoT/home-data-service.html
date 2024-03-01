@@ -165,7 +165,11 @@
     </div>
 
     <div class="form-control">
-        <button id="preview-button">미리보기</button> <button id="download-button">다운로드</button>
+        <button id="chart-preview-button">Preview (Chart)</button>
+        <button id="preview-button">Preview (Data)</button>
+    </div>
+    <div class="form-control">
+        <button id="download-button">Data Dwonload</button>
     </div>
 </div>
 <pre>
@@ -274,7 +278,30 @@ document.getElementById('download-button').addEventListener('click', function() 
     var tablename = table.value;
 
     // Epoch 시간을 사용하여 데이터 다운로드를 위한 원격 URL 구성
-    var requestUrl = `/db/tql/neo-apps/home-IoT/download-data-${dataType}.tql?table={tablename}&sensor=${sensor}&startTime=${encodeURIComponent(startTime)}&endTime=${encodeURIComponent(endTime)}&dataType=${dataType}&timeformat=${timeformat}&timezone=${timezone}&datalimit=${datalimit}`;
+    var requestUrl = `/db/tql/neo-apps/home-IoT/download-data-${dataType}.tql?table=${tablename}&sensor=${sensor}&startTime=${encodeURIComponent(startTime)}&endTime=${encodeURIComponent(endTime)}&dataType=${dataType}&timeformat=${timeformat}&timezone=${timezone}&datalimit=${datalimit}`;
+    window.open(requestUrl, '_blank');
+
+});
+
+document.getElementById('chart-preview-button').addEventListener('click', function() {
+    var sensor = document.getElementById('sensor-select').value;
+    var startTime = new Date(document.getElementById('start-time').value).getTime() / 1000; // 밀리초를 초로 변환
+    var endTime = new Date(document.getElementById('end-time').value).getTime() / 1000; // 밀리초를 초로 변환
+    var dataType   = document.getElementById('data-type').value;
+    var timeformat = document.getElementById('timeformat').value;
+    var timezone   = document.getElementById('timezone').value;
+    var datalimit   = document.getElementById('datalimit').value;
+
+    if (!sensor || !startTime || !endTime || !dataType) {
+        alert('모든 옵션을 선택해주세요.');
+        return;
+    }
+
+    const table = document.getElementById('table-select'); // <select> 요소 선택
+    var tablename = table.value;
+
+    // Epoch 시간을 사용하여 데이터 다운로드를 위한 원격 URL 구성
+    var requestUrl = `/db/tql/neo-apps/home-IoT/chart-preview.tql?table=${tablename}&sensor=${sensor}&startTime=${encodeURIComponent(startTime)}&endTime=${encodeURIComponent(endTime)}&dataType=${dataType}&timeformat=${timeformat}&timezone=${timezone}&datalimit=${datalimit}`;
     window.open(requestUrl, '_blank');
 
 });
