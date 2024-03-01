@@ -138,7 +138,7 @@ function fetchData() {
             if (i === 0) return; // i가 0일 경우 이후 코드를 실행하지 않고 루프의 다음 반복으로 넘어갑니다.
 
             var tag = 'TAG-SENSOR' + i; // i가 0이 아닐 때만 실행됩니다.
-            fetch('http://127.0.0.1:5654/db/tql/neo-apps/live-sensor/get-sensor-data.tql?tag=' + tag)
+            fetch('/db/tql/neo-apps/live-sensor/get-sensor-data.tql?tag=' + tag)
                   .then(response => response.json())
                   .then((data) => {
                           var option = options[i];
@@ -150,7 +150,7 @@ function fetchData() {
     });
 
     var tag =  'vibration';
-    fetch('http://127.0.0.1:5654/db/tql/neo-apps/live-sensor/get-vibration-data.tql?tag=vibration')
+    fetch('/db/tql/neo-apps/live-sensor/get-vibration-data.tql?tag=vibration')
         .then(response => response.json())
         .then((data) => {
             var option = options[0];
@@ -163,7 +163,7 @@ function fetchData() {
       // 동기식 API 호출 함수
         function fetchDataSync() {
             var request = new XMLHttpRequest();
-            request.open('GET', 'http://127.0.0.1:5654/db/tql/neo-apps/live-sensor/get-alarm-data.tql', false); // false로 설정하여 동기식으로 변경
+            request.open('GET', '/db/tql/neo-apps/live-sensor/get-alarm-data.tql', false); // false로 설정하여 동기식으로 변경
             request.send(null);
 
             if (request.status === 200) {
@@ -199,7 +199,7 @@ function fetchData() {
  
     document.getElementById('callApiBtn').addEventListener('click', function() {
         // 비동기 요청을 시작
-        fetch('http://127.0.0.1:5654/db/tql/neo-apps/live-sensor/delete-alarm-data.tql')
+        fetch('/db/tql/neo-apps/live-sensor/delete-alarm-data.tql')
             .then(response => response.json()) // 응답을 JSON 형태로 파싱
             .then(data => {
                 // 'success' 값에 따라 메시지를 설정
