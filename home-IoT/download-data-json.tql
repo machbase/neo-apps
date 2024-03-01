@@ -1,6 +1,6 @@
 QUERY(
     "name", 'value',
-    from('home', param('sensor') ?? 'TAG-pressure'),
+    from(param('table') ?? 'home', param('sensor') ?? 'TAG-pressure'),
     between(parseFloat(param('startTime')) * 1000000000, parseFloat(param('endTime')) * 1000000000),
     //between('last-10s', 'last'),
     limit(param('datalimit')??100)

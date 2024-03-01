@@ -71,38 +71,16 @@
 <!-- 모든 폼 컨트롤을 하나의 div로 감싸기 -->
 <div class="form-controls">
     <div class="form-control">
+        <label for="table-select">테이블 선택:</label>
+        <select id="table-select">
+            <option value=""  selected>--선택해주세요--</option>
+        </select>
+    </div>
+
+    <div class="form-control">
         <label for="sensor-select">센서 선택:</label> (<span id="record-count">0</span> 레코드)
         <select id="sensor-select">
-            <option value="">--선택해주세요--</option>
-            <option value="TAG-pressure" selected>TAG-pressure</option>
-    <option value="TAG-Barn [kW]">TAG-Barn [kW] </option>
-    <option value="TAG-Dishwasher [kW]">TAG-Dishwasher [kW] </option>
-    <option value="TAG-Fridge [kW]">TAG-Fridge [kW] </option>
-    <option value="TAG-Furnace 1 [kW]">TAG-Furnace 1 [kW] </option>
-    <option value="TAG-Furnace 2 [kW]">TAG-Furnace 2 [kW] </option>
-    <option value="TAG-Garage door [kW]">TAG-Garage door [kW] </option>
-    <option value="TAG-Home office [kW]">TAG-Home office [kW] </option>
-    <option value="TAG-House overall [kW]">TAG-House overall [kW] </option>
-    <option value="TAG-Kitchen 12 [kW]">TAG-Kitchen 12 [kW] </option>
-    <option value="TAG-Kitchen 14 [kW]">TAG-Kitchen 14 [kW] </option>
-    <option value="TAG-Kitchen 38 [kW]">TAG-Kitchen 38 [kW] </option>
-    <option value="TAG-Living room [kW]">TAG-Living room [kW] </option>
-    <option value="TAG-Microwave [kW]">TAG-Microwave [kW] </option>
-    <option value="TAG-Solar [kW]">TAG-Solar [kW] </option>
-    <option value="TAG-Well [kW]">TAG-Well [kW] </option>
-    <option value="TAG-Wine cellar [kW]">TAG-Wine cellar [kW] </option>
-    <option value="TAG-apparentTemperature">TAG-apparentTemperature </option>
-    <option value="TAG-dewPoint">TAG-dewPoint </option>
-    <option value="TAG-gen [kW]">TAG-gen [kW] </option>
-    <option value="TAG-humidity">TAG-humidity </option>
-    <option value="TAG-precipIntensity">TAG-precipIntensity </option>
-    <option value="TAG-precipProbability">TAG-precipProbability </option>
-    <option value="TAG-pressure">TAG-pressure </option>
-    <option value="TAG-temperature">TAG-temperature </option>
-    <option value="TAG-use [kW]">TAG-use [kW] </option>
-    <option value="TAG-visibility">TAG-visibility </option>
-    <option value="TAG-windBearing">TAG-windBearing </option>
-    <option value="TAG-windSpeed">TAG-windSpeed </option>
+            <option value=""  selected>--선택해주세요--</option>
         </select>
     </div>
 
@@ -210,8 +188,10 @@ window.addEventListener('resize', adjustResultHeight);
 adjustResultHeight();
 
 document.getElementById('sensor-select').addEventListener('change', function() {
+    const table = document.getElementById('table-select'); // <select> 요소 선택
+    var tablename = table.value;
     var sensorValue = encodeURIComponent(this.value); // 사용자가 선택한 센서 값
-    var requestUrl = `http://127.0.0.1:5654/db/tql/neo-apps/home-IoT/meta.tql?tagname=${sensorValue}`;
+    var requestUrl = `/db/tql/neo-apps/home-IoT/get_tag_stat.tql?table=${tablename}&tagname=${sensorValue}`;
 
     fetch(requestUrl)
         .then(response => response.json()) // 응답을 JSON 형태로 변환
@@ -221,7 +201,7 @@ document.getElementById('sensor-select').addEventListener('change', function() {
 
                 var recordCount = data.data.rows[0][1]; // rows 배열의 첫 번째 요소 (레코드 갯수)
                 document.getElementById('record-count').textContent = recordCount;
-                                
+
                 var startTime = data.data.rows[0][2]; // rows 배열의 두 번째 요소 (시작 시간)
                 var endTime = data.data.rows[0][3]; // rows 배열의 세 번째 요소 (종료 시간)
 
@@ -253,12 +233,13 @@ document.getElementById('preview-button').addEventListener('click', function() {
         alert('모든 옵션을 선택해주세요.');
         return;
     }
+    const table = document.getElementById('table-select'); // <select> 요소 선택
+    var tablename = table.value;
 
     // Epoch 시간을 사용하여 데이터 다운로드를 위한 원격 URL 구성
-    var requestUrl = `http://127.0.0.1:5654/db/tql/neo-apps/home-IoT/download-data-${dataType}.tql?sensor=${sensor}&startTime=${encodeURIComponent(startTime)}&endTime=${encodeURIComponent(endTime)}&dataType=${dataType}&timeformat=${timeformat}&timezone=${timezone}&datalimit=${datalimit}`;
+    var requestUrl = `/db/tql/neo-apps/home-IoT/download-data-${dataType}.tql?table=${tablename}&sensor=${sensor}&startTime=${encodeURIComponent(startTime)}&endTime=${encodeURIComponent(endTime)}&dataType=${dataType}&timeformat=${timeformat}&timezone=${timezone}&datalimit=${datalimit}`;
     console.log('요청 URL:', requestUrl);
 
-        
     fetch(requestUrl)
         .then(response => dataType === 'json' ? response.json() : response.text())
         .then(data => {
@@ -289,11 +270,86 @@ document.getElementById('download-button').addEventListener('click', function() 
         return;
     }
 
+    const table = document.getElementById('table-select'); // <select> 요소 선택
+    var tablename = table.value;
+
     // Epoch 시간을 사용하여 데이터 다운로드를 위한 원격 URL 구성
-    var requestUrl = `http://127.0.0.1:5654/db/tql/neo-apps/home-IoT/download-data-${dataType}.tql?sensor=${sensor}&startTime=${encodeURIComponent(startTime)}&endTime=${encodeURIComponent(endTime)}&dataType=${dataType}&timeformat=${timeformat}&timezone=${timezone}&datalimit=${datalimit}`;
+    var requestUrl = `/db/tql/neo-apps/home-IoT/download-data-${dataType}.tql?table={tablename}&sensor=${sensor}&startTime=${encodeURIComponent(startTime)}&endTime=${encodeURIComponent(endTime)}&dataType=${dataType}&timeformat=${timeformat}&timezone=${timezone}&datalimit=${datalimit}`;
     window.open(requestUrl, '_blank');
 
 });
+
+// table select 
+document.getElementById('table-select').addEventListener('change', function() {
+    const selectedTable = this.value; // 선택된 테이블의 값을 가져옴
+
+    // API 호출 함수
+    function fetchSensorList() {
+        const apiUrl = `/db/tql/neo-apps/home-IoT/get_tag_names.tql?table=${encodeURIComponent(selectedTable)}`;
+        fetch(apiUrl) // 수정된 API 주소
+            .then(response => response.json()) // 응답을 JSON으로 변환
+            .then(data => {
+                if (data.success && data.data && data.data.rows) {
+                    updateSelectOptions(data.data.rows);
+                } else {
+                    console.error('테이블 데이터를 가져오는 데 실패했습니다.');
+                }
+            })
+            .catch(error => console.error('에러:', error));
+    }
+
+    // <select> 폼에 옵션 추가하는 함수
+    function updateSelectOptions(SensorList) {
+        const select = document.getElementById('sensor-select'); // <select> 요소 선택
+        //기존의 모든 옵션 제거
+        while (select.options.length > 1) { // 첫 번째 옵션("--선택해주세요--")은 유지하고 나머지를 제거
+            select.remove(1); // 첫 번째 옵션 이후의 옵션을 제거
+        }
+        // 기존의 옵션들을 제외한 새로운 옵션 추가
+        SensorList.forEach(table => {
+            const option = document.createElement('option'); // 새로운 <option> 요소 생성
+            option.value = table[0]; // 옵션의 값 설정
+            option.textContent = table[0]; // 옵션의 텍스트 설정
+            select.appendChild(option); // <select>에 옵션 추가
+        });
+    }
+
+    // API 호출하여 테이블 리스트 가져오기
+    fetchSensorList();
+});
+
+document.addEventListener('DOMContentLoaded', function() {
+    // API 호출 함수
+    function fetchTableList() {
+        fetch('/db/tql/neo-apps/home-IoT/get_tag_tables.tql') // API 주소는 예시입니다. 실제 주소로 교체해야 합니다.
+            .then(response => response.json()) // 응답을 JSON으로 변환
+            .then(data => {
+                if (data.success && data.data && data.data.rows) {
+                    updateSelectOptions(data.data.rows);
+                } else {
+                    console.error('테이블 데이터를 가져오는 데 실패했습니다.');
+                }
+            })
+            .catch(error => console.error('에러:', error));
+    }
+
+    // <select> 폼에 옵션 추가하는 함수
+    function updateSelectOptions(tableList) {
+        const select = document.getElementById('table-select'); // <select> 요소 선택
+
+        // 기존의 옵션들을 제외한 새로운 옵션 추가
+        tableList.forEach(table => {
+            const option = document.createElement('option'); // 새로운 <option> 요소 생성
+            option.value = table[0]; // 옵션의 값 설정
+            option.textContent = table[0]; // 옵션의 텍스트 설정
+            select.appendChild(option); // <select>에 옵션 추가
+        });
+    }
+
+    // API 호출하여 테이블 리스트 가져오기
+    fetchTableList();
+});
+
 </script>
 
 </body>
