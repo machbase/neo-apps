@@ -1,2 +1,0 @@
-SQL("select name, row_count, min_time, max_time from v$" + (param("table") ?? "home") + "_stat where name  = '" + (param('tagname') ?? "TAG-pressure") + "'")
-JSON(timeformat('DEFAULT'), header(true), tz('Local'))
