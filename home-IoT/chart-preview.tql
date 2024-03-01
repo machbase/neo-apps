@@ -8,12 +8,17 @@ QUERY(
 PUSHVALUE(2, value(0))
 POPVALUE(0, 1)
 MAPVALUE(0, strTime(value(0), param('timeformat') ?? 's', tz(param('timezone') ?? 'Local')))
-//CSV()
-//CSV(timeformat(param('timeformat') ?? 's'), tz(param('timezone') ?? 'Local'))
-//CHART_LINE()
 
-CHART(
-    chartOption({
+CHART(theme('romantic'), size('800px', '600px'),
+    chartOption(strSprintf(`{
+        title: {
+          text: '%s', // 제목 텍스트
+            subtext: '%s', // 부제목 텍스트
+            left: 'center', // 제목 위치
+            textStyle: {
+                color: '#333' // 제목 스타일
+            }
+        },
         dataZoom: [
         {
             type: 'slider', // 슬라이더 타입의 데이터 줌
@@ -30,11 +35,11 @@ CHART(
         yAxis: {},
         series: [
             {
-                type: "line", 
-                name: "value", 
+                type: 'line', 
+                name: 'value', 
                 smooth: false, 
                 data: column(1)
             }
         ]
-    })
+    }`, param('table'),param('sensor')))
 )
