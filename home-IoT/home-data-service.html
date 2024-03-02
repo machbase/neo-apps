@@ -12,8 +12,8 @@
     left: 50%;
     top: 50%;
     transform: translate(-50%, -50%);
-    width: 80vw; /* 화면 너비의 80% */
-    height: 80vh; /* 화면 높이의 80% */
+    width: 80vw; 
+    height: 80vh; 
     padding: 20px;
     background: #f9f9f9;
     border: 1px solid #ddd;
@@ -83,47 +83,47 @@
 
 <h1>Home IoT Data Service</h1>
 
-<!-- 모든 폼 컨트롤을 하나의 div로 감싸기 -->
+
 <div class="form-controls">
     <div class="form-control">
-        <label for="table-select">테이블 선택:</label>
+        <label for="table-select">Table </label>
         <select id="table-select">
-            <option value=""  selected>--선택해주세요--</option>
+            <option value=""  selected>Not Selected</option>
         </select>
     </div>
 
     <div class="form-control">
-        <label for="sensor-select">센서 선택:</label> (<span id="record-count">0</span> 레코드)
+        <label for="sensor-select">Tag</label> (<span id="record-count">0</span> records)
         <select id="sensor-select">
-            <option value=""  selected>--선택해주세요--</option>
+            <option value=""  selected>Not Selected</option>
         </select>
     </div>
 
-<!-- 레코드 갯수를 표시할 새로운 섹션 -->
+
 <div class="form-control" id="record-count-section" style="display: none;">
-    <label for="record-count">레코드 갯수:</label>
+    <label for="record-count">Count of records:</label>
     <span id="record-count">0</span>
 </div>
 
     <div class="form-control">
-        <label for="start-time">시작 시간:</label>
+        <label for="start-time">Begin Time:</label>
         <input type="datetime-local" id="start-time" name="start-time"
                value="2016-01-01T14:00" min="2016-01-01T14:00" max="2016-01-02T17:46">
     </div>
     <div class="form-control">
-        <label for="end-time">종료 시간:</label>
+        <label for="end-time">End Time:</label>
         <input type="datetime-local" id="end-time" name="end-time"
                value="2016-01-02T17:46" min="2016-01-01T14:00" max="2016-01-02T17:46">
     </div>
 
     <div class="form-control">
-        <label for="timeformat">타임 포맷:</label>
+        <label for="timeformat">Time Format:</label>
         <select id="timeformat">
+            <option value="DEFAULT" selected> DEFAULT (2006-01-02 15:04:05.999) </option>
             <option value="s"> Unix epoch time in seconds (1451624400) </option>
             <option value="ms"> Unix epoch time in milliseconds (1451624400000) </option>
             <option value="us"> Unix epoch time in microseconds (1451624400000000)</option>
             <option value="ns"> Unix epoch time in nanoseconds  (1451624400000000000)</option>
-            <option value="DEFAULT"> DEFAULT (2006-01-02 15:04:05.999) </option>
             <option value="NUMERIC"> NUMERIC (01/02 03:04:05PM ‘06 -0700) </option>
             <option value="ANSIC"> ANSIC (Mon Jan _2 15:04:05 2006) </option>
             <option value="UNIX"> UNIX (Mon Jan _2 15:04:05 MST 2006) </option>
@@ -150,24 +150,43 @@
     </div>
 
     <div class="form-control">
-        <label for="timezone">타임 존:</label>
+        <label for="timezone">Time Zone:</label>
         <select id="timezone">
-            <option value="Local" selected>Local</option>
-            <option value="UTC">UTC</option>
-            <option value="Asia/Seoul">Seoul</option>
+    <option value="Local" selected>Local</option>
+    <option value="UTC"> (Coordinated Universal Time) </option>
+    <option value="Europe/London"> (London, UK) </option>
+    <option value="America/New_York"> (New York, USA) </option>
+    <option value="America/Los_Angeles"> (Los Angeles, USA) </option>
+    <option value="Asia/Tokyo"> (Tokyo, Japan) </option>
+    <option value="Asia/Seoul"> (Seoul, South Korea) </option>
+        <option value="Australia/Sydney"> (Sydney, Australia) </option>
+    <option value="Europe/Paris"> (Paris, France) </option>
+        <option value="Europe/Berlin"> (Berlin, Germany) </option>
+        <option value="Europe/Moscow"> (Moscow, Russia) </option>
+    <option value="Asia/Beijing"> (Beijing, China) </option>
+    <option value="Asia/Shanghai"> (Shanghai, China) </option>
+    <option value="Asia/Hong_Kong"> (Hong Kong) </option>
+    <option value="Asia/Singapore"> (Singapore) </option>
+    <option value="America/Sao_Paulo"> (Sao Paulo, Brazil) </option>
+    <option value="America/Toronto"> (Toronto, Canada) </option>
+    <option value="Europe/Madrid"> (Madrid, Spain) </option>
+    <option value="Africa/Johannesburg"> (Johannesburg, South Africa) </option>
+    <option value="Asia/Dubai"> (Dubai, United Arab Emirates) </option>
+    <option value="Asia/Kolkata"> (Kolkata, India) </option>
+
         </select>
     </div>
 
     <div class="form-control">
-        <label for="data-type">데이터 타입:</label>
+        <label for="data-type">Data Type:</label>
         <select id="data-type">
-            <option value="csv">CSV</option>
+            <option value="csv" selected>CSV</option>
             <option value="json">JSON</option>
         </select>
     </div>
 
     <div class="form-control">
-        <label for="datalimit">데이터 최대 갯수:</label>
+        <label for="datalimit">Maximum Count of Records:</label>
         <select id="datalimit">
             <option value=10>10</option>
             <option value=100 selected>100</option>
@@ -190,52 +209,47 @@
     </div>
 </div>
 <pre>
-<div id="result" class="result" style="display:none;">여기에 결과가 표시됩니다.</div>
+<div id="result" class="result" style="display:none;">result</div>
 </pre>
 <div id="popup" class="popup">
     <iframe id="popupIframe" width="100%" height="100%" style="border:none;" src="http://www.hani.co.kr"></iframe>
 
-    <button onclick="closePopup()">닫기</button>
+    <button onclick="closePopup()">Close This Chart</button>
 </div>
 
 <script>
-// 윈도우 크기가 변경될 때 호출될 함수를 정의합니다.
+
 function adjustResultHeight() {
-    // 윈도우 높이의 50%를 최대 높이로 설정합니다.
+
     var maxHeight = window.innerHeight * 0.7;
-    // `#result` 요소의 최대 높이를 조정합니다.
     document.getElementById('result').style.maxHeight = `${maxHeight}px`;
 }
 
-// 윈도우의 'resize' 이벤트에 함수를 연결합니다.
 window.addEventListener('resize', adjustResultHeight);
 
-// 초기 로드 시에도 함수를 호출하여 `#result` 영역의 크기를 조정합니다.
 adjustResultHeight();
 
 document.getElementById('sensor-select').addEventListener('change', function() {
-    const table = document.getElementById('table-select'); // <select> 요소 선택
+    const table = document.getElementById('table-select');
     var tablename = table.value;
-    var sensorValue = encodeURIComponent(this.value); // 사용자가 선택한 센서 값
+    var sensorValue = encodeURIComponent(this.value); 
     var requestUrl = `/db/tql/neo-apps/home-IoT/get_tag_stat.tql?table=${tablename}&tagname=${sensorValue}`;
 
     fetch(requestUrl)
-        .then(response => response.json()) // 응답을 JSON 형태로 변환
+        .then(response => response.json())
         .then(data => {
             if (data.success && data.data.rows.length > 0) {
 
 
-                var recordCount = data.data.rows[0][1]; // rows 배열의 첫 번째 요소 (레코드 갯수)
+                var recordCount = data.data.rows[0][1];
                 document.getElementById('record-count').textContent = recordCount;
 
-                var startTime = data.data.rows[0][2]; // rows 배열의 두 번째 요소 (시작 시간)
-                var endTime = data.data.rows[0][3]; // rows 배열의 세 번째 요소 (종료 시간)
+                var startTime = data.data.rows[0][2];
+                var endTime = data.data.rows[0][3];
 
-                // 시작 시간과 종료 시간을 ISO 문자열 형식으로 변환 (입력 필드에 맞추기 위해)
                 var startTimeFormatted = new Date(startTime).toISOString().slice(0, 16);
                 var endTimeFormatted = new Date(endTime).toISOString().slice(0, 16);
 
-                // 입력 필드에 시간 설정
                 document.getElementById('start-time').value = startTimeFormatted;
                 document.getElementById('end-time').value = endTimeFormatted;
             } else {
@@ -248,21 +262,20 @@ document.getElementById('sensor-select').addEventListener('change', function() {
 
 document.getElementById('preview-button').addEventListener('click', function() {
     var sensor = document.getElementById('sensor-select').value;
-    var startTime = new Date(document.getElementById('start-time').value).getTime() / 1000; // 밀리초를 초로 변환
-    var endTime = new Date(document.getElementById('end-time').value).getTime() / 1000; // 밀리초를 초로 변환
+    var startTime = new Date(document.getElementById('start-time').value).getTime() / 1000;
+    var endTime = new Date(document.getElementById('end-time').value).getTime() / 1000;
     var dataType   = document.getElementById('data-type').value;
     var timeformat = document.getElementById('timeformat').value;
     var timezone   = document.getElementById('timezone').value;
     var datalimit   = document.getElementById('datalimit').value;
 
     if (!sensor || !startTime || !endTime || !dataType) {
-        alert('모든 옵션을 선택해주세요.');
+        alert('Select all!');
         return;
     }
-    const table = document.getElementById('table-select'); // <select> 요소 선택
+    const table = document.getElementById('table-select');
     var tablename = table.value;
 
-    // Epoch 시간을 사용하여 데이터 다운로드를 위한 원격 URL 구성
     var requestUrl = `/db/tql/neo-apps/home-IoT/download-data-${dataType}.tql?table=${tablename}&sensor=${sensor}&startTime=${encodeURIComponent(startTime)}&endTime=${encodeURIComponent(endTime)}&dataType=${dataType}&timeformat=${timeformat}&timezone=${timezone}&datalimit=${datalimit}`;
     console.log('요청 URL:', requestUrl);
 
@@ -271,35 +284,32 @@ document.getElementById('preview-button').addEventListener('click', function() {
         .then(data => {
           var resultElement = document.getElementById('result');
             if (dataType === 'json') {
-                // JSON 데이터를 예쁘게 정렬하여 <pre> 태그 내부에 표시
                 resultElement.innerHTML = `<pre>${JSON.stringify(data, null, 2)}</pre>`;
             } else {
-                // 텍스트 데이터는 그대로 표시 (필요한 경우 <pre> 태그 사용)
                 resultElement.textContent = data;
             }
-            resultElement.style.display = 'block'; // 결과 영역을 보이게 설정
+            resultElement.style.display = 'block';
         })
         .catch(error => console.error('Error:', error));
 });
 
 document.getElementById('download-button').addEventListener('click', function() {
     var sensor = document.getElementById('sensor-select').value;
-    var startTime = new Date(document.getElementById('start-time').value).getTime() / 1000; // 밀리초를 초로 변환
-    var endTime = new Date(document.getElementById('end-time').value).getTime() / 1000; // 밀리초를 초로 변환
+    var startTime = new Date(document.getElementById('start-time').value).getTime() / 1000;
+    var endTime = new Date(document.getElementById('end-time').value).getTime() / 1000;
     var dataType   = document.getElementById('data-type').value;
     var timeformat = document.getElementById('timeformat').value;
     var timezone   = document.getElementById('timezone').value;
     var datalimit   = document.getElementById('datalimit').value;
 
     if (!sensor || !startTime || !endTime || !dataType) {
-        alert('모든 옵션을 선택해주세요.');
+        alert('Select all!');
         return;
     }
 
-    const table = document.getElementById('table-select'); // <select> 요소 선택
+    const table = document.getElementById('table-select');
     var tablename = table.value;
 
-    // Epoch 시간을 사용하여 데이터 다운로드를 위한 원격 URL 구성
     var requestUrl = `/db/tql/neo-apps/home-IoT/download-data-${dataType}.tql?table=${tablename}&sensor=${sensor}&startTime=${encodeURIComponent(startTime)}&endTime=${encodeURIComponent(endTime)}&dataType=${dataType}&timeformat=${timeformat}&timezone=${timezone}&datalimit=${datalimit}`;
     window.open(requestUrl, '_blank');
 
@@ -307,22 +317,21 @@ document.getElementById('download-button').addEventListener('click', function() 
 
 document.getElementById('chart-preview-button').addEventListener('click', function() {
     var sensor = document.getElementById('sensor-select').value;
-    var startTime = new Date(document.getElementById('start-time').value).getTime() / 1000; // 밀리초를 초로 변환
-    var endTime = new Date(document.getElementById('end-time').value).getTime() / 1000; // 밀리초를 초로 변환
+    var startTime = new Date(document.getElementById('start-time').value).getTime() / 1000;
+    var endTime = new Date(document.getElementById('end-time').value).getTime() / 1000;
     var dataType   = document.getElementById('data-type').value;
     var timeformat = document.getElementById('timeformat').value;
     var timezone   = document.getElementById('timezone').value;
     var datalimit   = document.getElementById('datalimit').value;
 
     if (!sensor || !startTime || !endTime || !dataType) {
-        alert('모든 옵션을 선택해주세요.');
+        alert('Select all!');
         return;
     }
 
-    const table = document.getElementById('table-select'); // <select> 요소 선택
+    const table = document.getElementById('table-select');
     var tablename = table.value;
 
-    // Epoch 시간을 사용하여 데이터 다운로드를 위한 원격 URL 구성
     var requestUrl = `/db/tql/neo-apps/home-IoT/chart-preview.tql?table=${tablename}&sensor=${sensor}&startTime=${encodeURIComponent(startTime)}&endTime=${encodeURIComponent(endTime)}&dataType=${dataType}&timeformat=${timeformat}&timezone=${timezone}&datalimit=${datalimit}`;
 
     document.getElementById("popup").style.display = "block";
@@ -333,74 +342,65 @@ document.getElementById('chart-preview-button').addEventListener('click', functi
         document.getElementById("popup").style.display = "none";
     }
 
-// table select
+//
 document.getElementById('table-select').addEventListener('change', function() {
-    const selectedTable = this.value; // 선택된 테이블의 값을 가져옴
+    const selectedTable = this.value;
 
-    // API 호출 함수
     function fetchSensorList() {
         const apiUrl = `/db/tql/neo-apps/home-IoT/get_tag_names.tql?table=${encodeURIComponent(selectedTable)}`;
-        fetch(apiUrl) // 수정된 API 주소
-            .then(response => response.json()) // 응답을 JSON으로 변환
+        fetch(apiUrl)
+            .then(response => response.json())
             .then(data => {
                 if (data.success && data.data && data.data.rows) {
                     updateSelectOptions(data.data.rows);
                 } else {
-                    console.error('테이블 데이터를 가져오는 데 실패했습니다.');
+                    console.error('Error to load tag names');
                 }
             })
-            .catch(error => console.error('에러:', error));
+            .catch(error => console.error('Error:', error));
     }
 
-    // <select> 폼에 옵션 추가하는 함수
     function updateSelectOptions(SensorList) {
-        const select = document.getElementById('sensor-select'); // <select> 요소 선택
-        //기존의 모든 옵션 제거
-        while (select.options.length > 1) { // 첫 번째 옵션("--선택해주세요--")은 유지하고 나머지를 제거
-            select.remove(1); // 첫 번째 옵션 이후의 옵션을 제거
+        const select = document.getElementById('sensor-select');
+        while (select.options.length > 1) {
+            select.remove(1);
         }
-        // 기존의 옵션들을 제외한 새로운 옵션 추가
         SensorList.forEach(table => {
-            const option = document.createElement('option'); // 새로운 <option> 요소 생성
-            option.value = table[0]; // 옵션의 값 설정
-            option.textContent = table[0]; // 옵션의 텍스트 설정
-            select.appendChild(option); // <select>에 옵션 추가
+            const option = document.createElement('option');
+            option.value = table[0];
+            option.textContent = table[0];
+            select.appendChild(option);
         });
     }
 
-    // API 호출하여 테이블 리스트 가져오기
     fetchSensorList();
 });
 
 document.addEventListener('DOMContentLoaded', function() {
-    // API 호출 함수
     function fetchTableList() {
-        fetch('/db/tql/neo-apps/home-IoT/get_tag_tables.tql') // API 주소는 예시입니다. 실제 주소로 교체해야 합니다.
-            .then(response => response.json()) // 응답을 JSON으로 변환
+        fetch('/db/tql/neo-apps/home-IoT/get_tag_tables.tql')
+            .then(response => response.json())
             .then(data => {
                 if (data.success && data.data && data.data.rows) {
                     updateSelectOptions(data.data.rows);
                 } else {
-                    console.error('테이블 데이터를 가져오는 데 실패했습니다.');
+                    console.error('Failed to load table names');
                 }
             })
-            .catch(error => console.error('에러:', error));
+            .catch(error => console.error('Error:', error));
     }
 
-    // <select> 폼에 옵션 추가하는 함수
     function updateSelectOptions(tableList) {
-        const select = document.getElementById('table-select'); // <select> 요소 선택
+        const select = document.getElementById('table-select');
 
-        // 기존의 옵션들을 제외한 새로운 옵션 추가
         tableList.forEach(table => {
-            const option = document.createElement('option'); // 새로운 <option> 요소 생성
-            option.value = table[0]; // 옵션의 값 설정
-            option.textContent = table[0]; // 옵션의 텍스트 설정
-            select.appendChild(option); // <select>에 옵션 추가
+            const option = document.createElement('option');
+            option.value = table[0];
+            option.textContent = table[0];
+            select.appendChild(option);
         });
     }
 
-    // API 호출하여 테이블 리스트 가져오기
     fetchTableList();
 });
 
