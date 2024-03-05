@@ -23,6 +23,8 @@ See the section about [deployment](https://facebook.github.io/create-react-app/d
 Runs the app in the development mode.\
 Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
 
-If you can't see the chart, please check the NEO DBMS TQL url.
-By default, the URL is in ./src/SensorDataChart.js, http://127.0.0.1:5654/db/tql/neo-apps/live-sensor/get-sensor-data.tql
+### Machbase NEO URL check 
+
+If you can't see the chart running, please check the NEO DBMS TQL url.
+By default, the URL is in source code ./src/SensorDataChart.js that is http://127.0.0.1:5654/db/tql/neo-apps/live-sensor/get-sensor-data.tql
 
