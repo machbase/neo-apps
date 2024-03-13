@@ -106,12 +106,12 @@
 </div>
 
     <div class="form-control">
-        <label for="start-time">Begin Time:</label>
+        <label for="start-time">Begin Time (Local)</label>
         <input type="datetime-local" id="start-time" name="start-time"
                value="2016-01-01T14:00" min="2016-01-01T14:00" max="2016-01-02T17:46">
     </div>
     <div class="form-control">
-        <label for="end-time">End Time:</label>
+        <label for="end-time">End Time (Local)</label>
         <input type="datetime-local" id="end-time" name="end-time"
                value="2016-01-02T17:46" min="2016-01-01T14:00" max="2016-01-02T17:46">
     </div>
@@ -247,8 +247,10 @@ document.getElementById('sensor-select').addEventListener('change', function() {
                 var startTime = data.data.rows[0][2];
                 var endTime = data.data.rows[0][3];
 
-                var startTimeFormatted = new Date(startTime).toISOString().slice(0, 16);
-                var endTimeFormatted = new Date(endTime).toISOString().slice(0, 16);
+                // var startTimeFormatted = new Date(startTime).toISOString().slice(0, 16);
+                // var endTimeFormatted = new Date(endTime).toISOString().slice(0, 16);
+                var startTimeFormatted = startTime.slice(0, 16);
+                var endTimeFormatted = endTime.slice(0, 16);
 
                 document.getElementById('start-time').value = startTimeFormatted;
                 document.getElementById('end-time').value = endTimeFormatted;
