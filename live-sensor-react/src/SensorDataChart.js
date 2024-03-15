@@ -7,7 +7,7 @@ const SensorDataChart = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch('http://127.0.0.1:5654/db/tql/neo-apps/live-sensor/get-sensor-data.tql?tag=TAG-SENSOR4');
+        const response = await fetch('https://react-demo.machbase.com/db/tql/neo-apps/live-sensor/get-sensor-data.tql?tag=TAG-SENSOR4');
         const data = await response.json();
         if (data.success && data.data && data.data.rows) {
           const formattedData = data.data.rows.map(row => ({
