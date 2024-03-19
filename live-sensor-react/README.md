@@ -26,5 +26,5 @@ Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
 ### Machbase NEO URL check 
 
 If you can't see the chart running, please check the NEO DBMS TQL url.
-By default, the URL is in source code ./src/SensorDataChart.js that is http://127.0.0.1:5654/db/tql/neo-apps/live-sensor/get-sensor-data.tql
+By default, the URL is in source code ./src/SensorDataChart.js that is /db/tql/neo-apps/live-sensor/get-sensor-data.tql
 
