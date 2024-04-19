@@ -1,0 +1,5 @@
+CSV(payload())
+MAPVALUE(1, parseFloat(value(1)) * 1000000000)
+MAPVALUE(2, parseFloat(value(2)))
+#APPEND(table(param('table')))
+APPEND(table('monitoring'))

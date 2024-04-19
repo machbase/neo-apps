@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-# python3 ./agent-csv2.py http://127.0.0.1:5654/db/tql/test.tql monitoring
+# python3 ./agent-csv2.py http://127.0.0.1:5654/db/tql/append.tql monitoring
 
 import argparse
 import logging
