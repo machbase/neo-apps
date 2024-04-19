@@ -30,7 +30,7 @@ def main(url, tablename, ip_address, interval, servername, debug):
         csv_writer.writerows(json_data["data"]["rows"])
         # CSV 문자열 가져오기
         csv_content = output.getvalue()
-        #print("###\n" + csv_content);
+        print("###\n" + csv_content);
 
         #############################################################################
         # Send data
