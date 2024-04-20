@@ -3,14 +3,12 @@ CSV(payload())
 MAPVALUE(1, parseFloat(value(1)) * 1000000000)
 MAPVALUE(2, parseFloat(value(2)))
 
-WHEN(glob("CPU-*", value(0)) && value(2) > 60,
+WHEN(glob("CPU-*", value(0)) && value(2) > 10,
       do( value(0), value(1), value(2), {
         ARGS()
-        MAPVALUE(3, strSprintf("CPU overheating..: more than %f", 60))
+        MAPVALUE(3, strSprintf("CPU overheating..: more than %f", 10))
         INSERT("name", "time", "value", "desc", table("alarm_history"))    
         }
       )
     )
-#CSV()
-APPEND(table(param('table')))
-#APPEND(table('monitoring'))
+APPEND(table(param('table') ?? 'monitoring'))

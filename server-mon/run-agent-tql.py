@@ -42,7 +42,7 @@ def main(url, tablename, ip_address, interval, servername, debug):
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='System Statistics Collector')
-    parser.add_argument('url', type=str, help='NEO-URL (e.g., http://host:port)')
+    parser.add_argument('url', type=str, help='NEO-URL (e.g., http://host:port/db/tql/neo-apps/server-mon/append.tql)')
     parser.add_argument('tablename', type=str, help='Table name for data storage')
     parser.add_argument('--ip_address', type=str, default='', help='IP Address prefix to filter (default: "")')
     parser.add_argument('--interval', type=int, default=3, help='Interval between posts in seconds (default: 3)')
