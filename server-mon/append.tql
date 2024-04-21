@@ -7,7 +7,7 @@ WHEN(glob("CPU-*", value(0)) && value(2) > 10,
       do( value(0), value(1), value(2), {
         ARGS()
         MAPVALUE(3, strSprintf("CPU overheating..: more than %.1f", 10))
-        INSERT("name", "time", "value", "desc", table("alarm_history"))    
+        INSERT("name", "time", "value", "desc", table("alarm_history"))
         }
       )
     )
