@@ -1,0 +1,18 @@
+SQL_SELECT(
+    'time', 'value',
+    from('fft', 'vib-z'),
+    between('last-10s', 'last')
+)
+MAPKEY( roundTime(value(0), '500ms') )
+GROUPBYKEY()
+FFT(minHz(0), maxHz(1000))
+FLATTEN()
+PUSHKEY('fft')
+CHART_BAR3D(
+      title('Z axis FFT in 3D'),
+      xAxis(0, 'time', 'time'),
+      yAxis(1, 'Hz'),
+      zAxis(2, 'Amp'),
+      size('500px', '500px'), visualMap(0, 1.5), theme('westeros')
+)
+
