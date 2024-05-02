@@ -1,15 +1,10 @@
-create tag table tag (name varchar(32) primary key, time datetime basetime, value double summarized);
+drop table fft cascade;
 
-select count(*) from tag;
+create tag table if not exists fft (name varchar(32) primary key, time datetime basetime, value double summarized);
 
-delete from tag;
+select count(*) from fft;
 
-
-create log table alarm (name varchar(32), time datetime, value double);
-
-select * from alarm;
-
-delete from alarm;
+delete from fft;
 
 
 

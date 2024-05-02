@@ -3,7 +3,6 @@ SQL_SELECT(
     from('fft', 'vib-z'),
     between('last-1s', 'last')
 )
-//CSV(timeformat('DEFAULT'))
 MAPKEY('sample')
 GROUPBYKEY()
 FFT(minHz(1), maxHz(1000))
