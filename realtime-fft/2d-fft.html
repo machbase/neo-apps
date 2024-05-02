@@ -2,7 +2,7 @@
 <html lang="ko">
 <head>
 <meta charset="UTF-8">
-<title>iframe 리로딩</title>
+<title>Realtime FFT Analysis</title>
 <style>
   body {
     display: flex;
@@ -45,6 +45,10 @@
     background-color: #555; /* 버튼 배경색 변경 */
     color: white; /* 버튼 글자색 변경 */
   }
+  /* 레코드 갯수 레이블 색상 변경 */
+  #recordLabel {
+    color: yellow; /* 여기에서 원하는 색상으로 변경하세요 */
+  }
 </style>
 <script>
   function reloadIframes() {
@@ -53,12 +57,30 @@
       iframe.src = iframe.src; // 현재 src로 iframe 리로드
     });
   }
+
+  // JSON 데이터를 가져오고 화면에 표시하는 함수
+  async function fetchData() {
+    try {
+      const response = await fetch('/db/query?q=select%20count(*)%20from%20fft'); // 여기에 URL을 입력하세요
+      const data = await response.json();
+      if (data.success && data.data.rows.length > 0) {
+        const recordCount = data.data.rows[0][0];
+        document.getElementById('recordLabel').innerText = `레코드 갯수: ${recordCount.toLocaleString()}`;
+      }
+    } catch (error) {
+      console.error('Failed to fetch data:', error);
+    }
+  }
+
+  // 1초마다 fetchData 함수 호출
+  setInterval(fetchData, 1000);
 </script>
 </head>
 <body>
 <div class="iframe-title">
 <h1>실시간 FFT 데모 2D/3D</h1>
-<button onclick="reloadIframes()">Update All FFT! </button>
+<h2 id="recordLabel">레코드 갯수: 0</h2> <!-- 레코드 갯수를 표시할 요소 -->
+<button onclick="reloadIframes()">실시간 데이터로 FFT 그래프로 다시 그리기 </button>
 </div>
 <div class="iframe-container">
   <iframe src="/db/tql/neo-apps/realtime-fft/fft-2d-x.tql"></iframe>
