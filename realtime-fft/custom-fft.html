@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<title>Realtime FFT Analysis</title>
+<style>
+  body {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    height: 100vh;
+    margin: 0;
+    background: #f0f0f0;
+    font-family: Arial, sans-serif;
+  }
+  .iframe-title {
+    margin: 20px 0;
+    padding: 20px;
+    background-color: #333;
+    color: white;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    width: 80%;
+    text-align: center;
+  }
+  .iframe-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+  iframe {
+    width:  900px;
+    height: 900px;
+    margin: 10px;
+    border: 2px solid #333;
+    border-radius: 10px;
+  }
+  select, button {
+    margin-top: 20px;
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    border-radius: 5px;
+    background-color: #555;
+    color: white;
+  }
+</style>
+<script>
+  function reloadIframes() {
+    const axis_value  = document.getElementById('axis').value;
+    const range_value = document.getElementById('range').value;
+    const precision_value = document.getElementById('precision').value;
+    const minhz_value = document.getElementById('minhz').value;
+    const maxhz_value = document.getElementById('maxhz').value;
+    const theme_value = document.getElementById('theme').value;
+    const iframes = document.querySelectorAll('iframe');
+    iframes.forEach(iframe => {
+      const baseUrl = '/db/tql/neo-apps/realtime-fft/fft-3d-custom.tql';
+      iframe.src = `${baseUrl}?axis=vib-${axis_value}&range=last-${range_value}s&precision=${precision_value}ms&minhz=${minhz_value}&maxhz=${maxhz_value}&theme=${theme_value}`; // URL에 파라미터 추가
+    });
+  }
+  function reloadIframes_csv() {
+    const axis_value  = document.getElementById('axis').value;
+    const range_value = document.getElementById('range').value;
+    const precision_value = document.getElementById('precision').value;
+    const minhz_value = document.getElementById('minhz').value;
+    const maxhz_value = document.getElementById('maxhz').value;
+    const theme_value = document.getElementById('theme').value;
+    const iframes = document.querySelectorAll('iframe');
+    iframes.forEach(iframe => {
+      const baseUrl = '/db/tql/neo-apps/realtime-fft/fft-3d-download.tql';
+      iframe.src = `${baseUrl}?axis=vib-${axis_value}&range=last-${range_value}s&precision=${precision_value}ms&minhz=${minhz_value}&maxhz=${maxhz_value}&theme=${theme_value}`; // URL에 파라미터 추가
+    });
+  }
+</script>
+</head>
+<body>
+<div class="iframe-title">
+  <h1>옵션 기반 FFT(고속 푸리에 변환) 데모 3D</h1>
+  AXIS
+  <select id="axis">
+    <option value="x" selected>X 축 분석</option>
+    <option value="y">Y 축 분석</option>
+    <option value="z">Z 축 분석</option>
+  </select>
+  분석시간
+  <select id="range">
+    <option value="2"> 최근 2 초간 </option>
+    <option value="3"> 최근 3 초간 </option>
+    <option value="5"> 최근 5 초간 </option>
+    <option value="10" selected> 최근 10 초간 </option>
+    <option value="20" > 최근 20 초간 </option>
+    <option value="30" > 최근 30 초간 </option>
+    <option value="60" > 최근 60 초간  </option>
+  </select>
+  분석정밀도 
+  <select id="precision">
+    <option value="50">  50ms 주기  </option>
+    <option value="100"> 100ms 주기  </option>
+    <option value="200"> 200ms 주기  </option>
+    <option value="500"  selected> 500ms 주기  </option>
+    <option value="1000"> 1000ms 주기  </option>
+  </select>
+  최소주파수
+  <select id="minhz">
+    <option value="0" selected>  0Hz  </option>
+    <option value="100" >  100Hz  </option>
+    <option value="200" >  200Hz  </option>
+    <option value="300" >  300Hz  </option>
+    <option value="400" >  400Hz  </option>
+    <option value="500" >  500Hz  </option>
+    <option value="600" >  600Hz  </option>
+    <option value="700" >  700Hz  </option>
+  </select>
+  최대주파수
+  <select id="maxhz">
+    <option value="200" >  200Hz  </option>
+    <option value="300" >  300Hz  </option>
+    <option value="400" >  400Hz  </option>
+    <option value="500" >  500Hz  </option>
+    <option value="600" >  600Hz  </option>
+    <option value="700" >  700Hz  </option>
+    <option value="800" >  800Hz  </option>
+    <option value="900" >  900Hz  </option>
+    <option value="1000" selected>  1000Hz  </option>
+  </select>
+  챠트테마 
+  <select id="theme">
+    <option value="white" selected>  white  </option>
+    <option value="dark" >  dark  </option>
+    <option value="chalk" > chalk   </option>
+    <option value="essos" > essos   </option>
+    <option value="infographic" >  infographic  </option>
+    <option value="macarons" >  macarons  </option>
+    <option value="purple-passion" >  purple-passion  </option>
+    <option value="roma" > roma   </option>
+    <option value="romantic" > romantic   </option>
+    <option value="shine" >  shine  </option>
+    <option value="vintage" > vintage   </option>
+    <option value="walden" >  walden  </option>
+    <option value="westeros" > westeros   </option>
+    <option value="wonderland" > wonderland   </option>
+  </select>
+<br>
+  <button onclick="reloadIframes()">실시간 데이터로 FFT 그래프로 다시 그리기</button>
+  <button onclick="reloadIframes_csv()">CSV로 다운로드 </button>
+</div>
+<div class="iframe-container">
+  <iframe src="/db/tql/neo-apps/realtime-fft/fft-3d-custom.tql"></iframe>
+</div>
+</body>
+</html>

@@ -1,0 +1,13 @@
+SQL_SELECT(
+    'time', 'value',
+    from('fft', param('axis') ?? 'vib-x'),
+    between(param('range') ?? 'last-10s', 'last')
+)
+MAPKEY( roundTime(value(0), param('precision') ?? '500ms') )
+GROUPBYKEY()
+FFT(minHz(parseFloat(param('minhz') ?? 0)), maxHz(parseFloat(param('maxhz') ?? 1000)))
+FLATTEN()
+PUSHKEY('fft')
+MAPVALUE(1, round(value(1)))
+MAPVALUE(2, strSprintf("%.2f", value(2)))
+CSV(timeformat('DEFAULT'))
