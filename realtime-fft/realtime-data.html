@@ -2,7 +2,7 @@
 <html lang="ko">
 <head>
 <meta charset="UTF-8">
-<title>Realtime FFT Analysis</title>
+<title>Realtime DATA Analysis</title>
 <style>
   body {
     display: flex;
@@ -31,7 +31,7 @@
   }
   iframe {
     width: 600px;   /* 가로 크기 */
-    height: 600px;  /* 세로 크기 */
+    height: 700px;  /* 세로 크기 */
     margin: 10px;
     border: 2px solid #333;
     border-radius: 10px;
@@ -74,24 +74,26 @@
 
   // 1초마다 fetchData 함수 호출
   setInterval(fetchData, 1000);
-  setInterval(reloadIframes, 10000);
+
+  setInterval(reloadIframes, 3000);
 </script>
 </head>
 <body>
 <div class="iframe-title">
-<h1>실시간 FFT(고속 푸리에 변환) 데모 2D/3D</h1>
+<h1>실시간 Data Visualizatoin 데모 </h1>
 <h2 id="recordLabel">레코드 갯수: 0</h2> <!-- 레코드 갯수를 표시할 요소 -->
-<button onclick="reloadIframes()">실시간 데이터로 FFT 그래프로 다시 그리기 </button>
+<button onclick="reloadIframes()">실시간 통계 다시 그리기 </button>
 </div>
 <div class="iframe-container">
-  <iframe src="/db/tql/neo-apps/realtime-fft/realtime-fft-2d-x.tql"></iframe>
-  <iframe src="/db/tql/neo-apps/realtime-fft/realtime-fft-2d-y.tql"></iframe>
-  <iframe src="/db/tql/neo-apps/realtime-fft/realtime-fft-2d-z.tql"></iframe>
+  
+  <iframe src="/db/tql/neo-apps/realtime-fft/realtime-data-raw.tql?axis=vib-x&title=X AXIS"></iframe>
+  <iframe src="/db/tql/neo-apps/realtime-fft/realtime-data-raw.tql?axis=vib-y&title=Y AXIS"></iframe>
+  <iframe src="/db/tql/neo-apps/realtime-fft/realtime-data-raw.tql?axis=vib-z&title=Z AXIS"></iframe>
 </div>
 <div class="iframe-container">
-  <iframe src="/db/tql/neo-apps/realtime-fft/realtime-fft-3d-x.tql"></iframe>
-  <iframe src="/db/tql/neo-apps/realtime-fft/realtime-fft-3d-y.tql"></iframe>
-  <iframe src="/db/tql/neo-apps/realtime-fft/realtime-fft-3d-z.tql"></iframe>
+  <iframe src="/db/tql/neo-apps/realtime-fft/realtime-data-stat.tql?axis=vib-x&title=X AXIS Statistics&range=10s&precision=2s"></iframe>
+  <iframe src="/db/tql/neo-apps/realtime-fft/realtime-data-stat.tql?axis=vib-y&title=Y AXIS Statistics&range=10s&precision=2s"></iframe>
+  <iframe src="/db/tql/neo-apps/realtime-fft/realtime-data-stat.tql?axis=vib-z&title=Z AXIS Statistics&range=10s&precision=2s"></iframe>
 </div>
 </body>
 </html>

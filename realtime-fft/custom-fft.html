@@ -2,7 +2,7 @@
 <html lang="ko">
 <head>
 <meta charset="UTF-8">
-<title>Realtime FFT Analysis</title>
+<title>Customized FFT Analysis</title>
 <style>
   body {
     display: flex;
@@ -56,7 +56,7 @@
     const theme_value = document.getElementById('theme').value;
     const iframes = document.querySelectorAll('iframe');
     iframes.forEach(iframe => {
-      const baseUrl = '/db/tql/neo-apps/realtime-fft/fft-3d-custom.tql';
+      const baseUrl = '/db/tql/neo-apps/realtime-fft/custome-fft-3d.tql';
       iframe.src = `${baseUrl}?axis=vib-${axis_value}&range=last-${range_value}s&precision=${precision_value}ms&minhz=${minhz_value}&maxhz=${maxhz_value}&theme=${theme_value}`; // URL에 파라미터 추가
     });
   }
@@ -69,7 +69,7 @@
     const theme_value = document.getElementById('theme').value;
     const iframes = document.querySelectorAll('iframe');
     iframes.forEach(iframe => {
-      const baseUrl = '/db/tql/neo-apps/realtime-fft/fft-3d-download.tql';
+      const baseUrl = '/db/tql/neo-apps/realtime-fft/custom-fft-3d-download.tql';
       iframe.src = `${baseUrl}?axis=vib-${axis_value}&range=last-${range_value}s&precision=${precision_value}ms&minhz=${minhz_value}&maxhz=${maxhz_value}&theme=${theme_value}`; // URL에 파라미터 추가
     });
   }
@@ -147,7 +147,7 @@
   <button onclick="reloadIframes_csv()">CSV로 다운로드 </button>
 </div>
 <div class="iframe-container">
-  <iframe src="/db/tql/neo-apps/realtime-fft/fft-3d-custom.tql"></iframe>
+  <iframe src="/db/tql/neo-apps/realtime-fft/custom-fft-3d.tql"></iframe>
 </div>
 </body>
 </html>

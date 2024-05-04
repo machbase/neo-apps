@@ -1,0 +1,37 @@
+SQL_SELECT(
+    'time', 'value',
+    from('fft', param('axis') ?? 'vib-x'),
+    between(strSprintf('now-%s', param('range') ?? '1s') , 'now')
+)
+
+MAPVALUE(0, strTime(value(0), 'DEFAULT'))
+//MARKDOWN()
+//CHART_LINE(title('RMS'))
+CHART(
+     chartOption(strSprintf(`{
+        title: {
+            text: '%s',
+            left: 'center'
+        },
+        xAxis: {
+            type: 'category',
+            data: column(0)
+        },
+        yAxis: {
+               type: 'value'
+        },
+        legend: {
+          show: true,
+            left: 'center',
+            top: 'bottom'
+        },  
+        series: [
+            {
+                name: '%s',
+                type: 'line',
+                data: column(1)
+            }
+        ]
+    }`, param('title') ?? 'X', param('axis') ?? 'vib-x'))
+)
+  
