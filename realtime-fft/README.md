@@ -1,36 +1,38 @@
+## This is a Case Study of Vibration Data Analysis Using FFT
 
-## This is the Analytics case of Vibration data using FFT
+Please open the 'realtime-fft.wrk' and follow the directions to run this demo.
 
-Please open the 'realtime-fft.wrk' and follow the direction for running this demo.
 ### Tutorial
-- realtime-fft.wrk  : worksheet for setup this demo
 
-### data schema
-- schema.sql        : table schema for  your convenient
+- realtime-fft.wrk: worksheet for setting up this demo
 
-### Data Insert
-- insert-auto-fft-x.tql : insert 1000Hz vibration data for X axis with some noise
-- insert-auto-fft-y.tql : insert 1000Hz vibration data for Y axis with some noise
-- insert-auto-fft-z.tql : insert 1000Hz vibration data for Z axis with some noise
+### Data Schema
+- schema.sql: table schema for your convenience
 
-### Realtime Data Statistic Analysis
-- realtime-data.html     : show the statistics page
-- realtime-data-raw.tql  : generate the raw chart for each axis
-- realtime-data-stat.tql : generate the statistics for each axis
+### Data Insertion
+- insert-auto-fft-x.tql: insert 1000Hz vibration data for the X axis with some noise
+- insert-auto-fft-y.tql: insert 1000Hz vibration data for the Y axis with some noise
+- insert-auto-fft-z.tql: insert 1000Hz vibration data for the Z axis with some noise
 
-### Realtime FFT Analysis
-- fft-2d-x.tql : generate single FFT 2D chart in X axis for the last 1 sec
-- fft-2d-y.tql : generate single FFT 2D chart in Y axis for the last 1 sec
-- fft-2d-z.tql : generate single FFT 2D chart in Z axis for the last 1 sec
-- fft-3d-x.tql : generate multiple FFT 3D chart in X axis for the last 10 sec
-- fft-3d-y.tql : generate multiple FFT 3D chart in Y axis for the last 10 sec
-- fft-3d-z.tql : generate multiple FFT 3D chart in Z axis for the last 10 sec
-- realtime-fft.dsh  : visualize the realtime X, Y, Z axis data
-- realtime-fft.html : show all FFT chart in 2D and 3D using above all TQL files
-- realtime-fft.taz  : analysis tool for FFT in any data range
+### Real-Time Data Statistical Analysis
+
+- realtime-data.html: display the statistics page
+- realtime-data-raw.tql: generate the raw chart for each axis
+- realtime-data-stat.tql: generate the statistics for each axis
+
+
+### Real-Time FFT Analysis
+- fft-2d-x.tql: generate a single FFT 2D chart on the X axis for the last 1 second
+- fft-2d-y.tql: generate a single FFT 2D chart on the Y axis for the last 1 second
+- fft-2d-z.tql: generate a single FFT 2D chart on the Z axis for the last 1 second
+- fft-3d-x.tql: generate multiple FFT 3D charts on the X axis for the last 10 seconds
+- fft-3d-y.tql: generate multiple FFT 3D charts on the Y axis for the last 10 seconds
+- fft-3d-z.tql: generate multiple FFT 3D charts on the Z axis for the last 10 seconds
+- realtime-fft.dsh: visualize the real-time X, Y, Z axis data
+- realtime-fft.html: show all FFT charts in 2D and 3D using the above TQL files
+- realtime-fft.taz: analysis tool for FFT in any data range
 
 ### Customized FFT Analysis
-- custom-fft.html   : show your own custom FFT chart
-- fft-3d-custom.tql : generate a single FFT in customized  mode
-- fft-3d-download.tql download the CSV file for the customized FFT data
-
+- custom-fft.html: display your own custom FFT chart
+- fft-3d-custom.tql: generate a single FFT in customized mode
+- fft-3d-download.tql: download the CSV file for the customized FFT data
