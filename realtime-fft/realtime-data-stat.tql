@@ -19,7 +19,7 @@ GROUP(
     )
     
 )
-MAPVALUE(0, strTime(value(0), 'DEFAULT'))
+MAPVALUE(0, strTime(value(0), 'DEFAULT', tz('Local')))
 //MARKDOWN()
 //CHART_LINE(title('RMS'))
 CHART(
