@@ -9,6 +9,9 @@ FFT(minHz(1), maxHz(1000))
 
 CHART(
     chartOption({
+        tooltip: {
+            trigger: 'item'
+        },
        title: {
             text: 'X axis FFT',
             left: 'center'

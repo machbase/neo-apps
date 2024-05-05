@@ -22,6 +22,12 @@ GROUP(
 MAPVALUE(0, strTime(value(0), 'DEFAULT', tz('Local')))
 CHART(
     chartOption(strSprintf(`{
+         grid: {
+            left: '10%%', 
+            right: '10%%',
+            top: '10%%',  
+            bottom: '10%%'
+        },
         title: {
             text: '%s',
             left: 'center'

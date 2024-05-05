@@ -15,11 +15,14 @@ Please open the 'realtime-fft.wrk' and follow the directions to run this demo.
 - insert-auto-fft-z.tql: insert 1000Hz vibration data for the Z axis with some noise
 
 ### Real-Time Data Statistical Analysis
-
 - realtime-data.html: display the statistics page
 - realtime-data-raw.tql: generate the raw chart for each axis
 - realtime-data-stat.tql: generate the statistics for each axis
 
+### Customized Data Statistical Analysis
+- custom-data.html: display the customized statistics page
+- custom-data-raw.tql: generate the raw chart for each axis
+- custom-data-stat.tql: generate the statistics for each axis
 
 ### Real-Time FFT Analysis
 - fft-2d-x.tql: generate a single FFT 2D chart on the X axis for the last 1 second
@@ -34,5 +37,5 @@ Please open the 'realtime-fft.wrk' and follow the directions to run this demo.
 
 ### Customized FFT Analysis
 - custom-fft.html: display your own custom FFT chart
-- fft-3d-custom.tql: generate a single FFT in customized mode
-- fft-3d-download.tql: download the CSV file for the customized FFT data
+- custom-fft-3d.tql: generate a single FFT in customized mode
+- custom-fft-3d-download.tql: download the CSV file for the customized FFT data

@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<title>Customized Axis Data Analysis</title>
+<style>
+  body {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    height: 100vh;
+    margin: 0;
+    background: #f0f0f0;
+    font-family: Arial, sans-serif;
+  }
+  .iframe-title {
+    margin: 20px 0;
+    padding: 20px;
+    background-color: #333;
+    color: white;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    width: 80%;
+    text-align: center;
+  }
+  .iframe-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+  iframe {
+    width:  100%;
+    height: 100%;
+    margin: 10px;
+    border: 2px solid #333;
+    border-radius: 10px;
+  }
+  select, button {
+    margin-top: 20px;
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    border-radius: 5px;
+    background-color: #555;
+    color: white;
+  }
+</style>
+<script>
+  function reloadIframes() {
+    const axis_value  = document.getElementById('axis').value;
+    const range_value = document.getElementById('range').value;
+    const precision_value = document.getElementById('precision').value;    
+
+    const iframe1 = document.getElementById('iframe1');
+    const iframe2 = document.getElementById('iframe2');
+    
+    const baseUrl1 = '/db/tql/neo-apps/realtime-fft/custom-data-raw.tql';
+    iframe1.src = `${baseUrl1}?title=Raw chart for ${axis_value} Axis&axis=vib-${axis_value}&range=${range_value}s&precision=${precision_value}s`; // URL에 파라미터 추가
+
+    const baseUrl2 = '/db/tql/neo-apps/realtime-fft/custom-data-stat.tql';
+    iframe2.src = `${baseUrl2}?title=Statistics for ${axis_value} Axis&axis=vib-${axis_value}&range=${range_value}s&precision=${precision_value}s`; // URL에 파라미터 추가
+
+ }
+
+  window.onload = function() {
+    reloadIframes();
+  };
+</script>
+</head>
+<body>
+<div class="iframe-title">
+  <h1>옵션 기반 Axis Data 분석 데모 3D</h1>
+  AXIS
+  <select id="axis">
+    <option value="x" selected>X 축 분석</option>
+    <option value="y">Y 축 분석</option>
+    <option value="z">Z 축 분석</option>
+  </select>
+  분석시간
+  <select id="range">
+    <option value="2"> 최근 2 초간 </option>
+    <option value="3"> 최근 3 초간 </option>
+    <option value="5"> 최근 5 초간 </option>
+    <option value="10" selected> 최근 10 초간 </option>
+    <option value="20" > 최근 20 초간 </option>
+    <option value="30" > 최근 30 초간 </option>
+    <option value="60" > 최근 60 초간  </option>
+  </select>
+  통계주기 
+  <select id="precision">
+    <option value="1">  1s 주기  </option>
+    <option value="2"   selected>  2s 주기  </option>
+    <option value="3">   3s 주기  </option>
+    <option value="5"> 5s 주기  </option>
+    <option value="10"> 10s 주기  </option>
+  </select>
+  
+<br>
+  <button onclick="reloadIframes()">최신 데이터 다시 분석</button>
+</div>
+<div class="iframe-container">
+  <iframe id="iframe1" src=""   style="width: 800px; height: 800px;"></iframe>
+  <iframe id="iframe2" src=""   style="width: 800px; height: 800px;"></iframe> 
+</div>
+</body>
+</html>
