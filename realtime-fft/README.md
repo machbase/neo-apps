@@ -39,3 +39,18 @@ Please open the 'realtime-fft.wrk' and follow the directions to run this demo.
 - custom-fft.html: display your own custom FFT chart
 - custom-fft-3d.tql: generate a single FFT in customized mode
 - custom-fft-3d-download.tql: download the CSV file for the customized FFT data
+
+### Alarm processing
+- alarm-data.wrk : worksheet for setting up alarm demo
+- alarm-data-stat.tql : chart for alarm statistics
+- alarm-data.html : show all alarm statistics
+- alarm-peak-history.dsh : show the dashboard for alarm history for all 3 axis
+- alarm-peak-publish.tql : detect the peak alarm and insert the event into log table (alarm_history)
+
+### Alarm Data Insertion
+- insert-alarm-noise-x.tql: insert 1000Hz vibration data for the X axis with peak noise
+- insert-alarm-noise-y.tql: insert 1000Hz vibration data for the Y axis with peak noise
+- insert-alarm-noise-z.tql: insert 1000Hz vibration data for the Z axis with peak noise
+
+
+
