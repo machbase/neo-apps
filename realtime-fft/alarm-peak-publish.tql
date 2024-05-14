@@ -18,7 +18,7 @@ MAPVALUE(0, strTime(value(0), 'DEFAULT', tz('Local')))
 WHEN(value(1) > parseFloat(param('peak') ?? 100),
       do( value(0), param('axis'), value(1), {
         ARGS()
-        MAPVALUE(3, strSprintf("%s alarm!..: more than %.1f", param('axis'), parseFloat(param('peak') ?? 100)))
+        MAPVALUE(3, strSprintf("%s peak alarm!..: more than %.2f", param('axis'), parseFloat(param('peak') ?? 100)))
         INSERT("time", "name", "value", "desc", table("alarm_history"))
         }
       )
