@@ -1,0 +1,68 @@
+SQL_SELECT(
+    'time', 'value',
+    from('fft', param('axis') ?? 'vib-y2'),
+    between(strSprintf('now-%s', param('range') ?? '20s') , 'now')
+)
+GROUP(
+    by( value(0),
+        timewindow(time(strSprintf('now-%s', param('range') ?? '20s')), time('now'), period(param('precision') ?? "1s")),
+        "TIME"
+    ),
+    max( value(1),
+          "PEAK ALARM"
+    )
+)
+SET(PEAK, parseFloat(param('peak') ?? 100))
+MAPVALUE(0, strTime(value(0), 'DEFAULT', tz('Local')))
+
+WHEN(value(1) > parseFloat(param('peak') ?? 100),
+      do( value(0), param('axis'), value(1), {
+        ARGS()
+        MAPVALUE(3, strSprintf("%s alarm!..: more than %.1f", param('axis'), parseFloat(param('peak') ?? 100)))
+        INSERT("time", "name", "value", "desc", table("alarm_history"))
+        }
+      )
+    )
+
+MAPVALUE(1, value(1) > $PEAK ? value(1) : 0)
+
+CHART(
+    chartOption(strSprintf(`{
+        tooltip: {
+            trigger: 'item'
+        },
+         grid: {
+            left: '10%%', 
+            right: '10%%',
+            top: '10%%',  
+            bottom: '10%%'
+        },
+        title: {
+            text: '%s',
+            left: 'center'
+        },
+        xAxis: {
+            type: "category",
+            data: column(0)
+        },
+        yAxis: {
+               type: 'value'
+        },
+        legend: {
+          show: true,
+            left: 'center',
+            top : 'bottom'
+
+        },  
+        series: [
+            {
+                name: 'PEAK  ALARM (> %.2f)',
+                type: "scatter",
+                data: column(1),
+                itemStyle: {
+                color: 'red' // 라인 색상
+                }
+            }
+        ]
+    }`, (param('title') ?? 'X'), parseFloat(param('peak') ?? 100)))
+)

@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<title>Realtime DATA Analysis</title>
+<style>
+  body {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start; /* 센터에서 시작으로 변경 */
+    height: 100vh;
+    margin: 0;
+    background: #f0f0f0;
+    font-family: Arial, sans-serif;
+  }
+  .iframe-title {
+    margin: 20px 0; /* 상하 여백 추가 */
+    padding: 20px;
+    background-color: #333; /* 배경색 추가 */
+    color: white; /* 글자색 변경 */
+    border-radius: 10px; /* 둥근 모서리 */
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1); /* 그림자 효과 */
+    width: 80%; /* 폭 조절 */
+    text-align: center; /* 중앙 정렬 */
+  }
+  .iframe-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+  iframe {
+    width: 600px;   /* 가로 크기 */
+    height: 650px;  /* 세로 크기 */
+    margin: 10px;
+    border: 2px solid #333;
+    border-radius: 10px;
+  }
+  button {
+    margin-top: 20px; /* 상단 여백 조절 */
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    border-radius: 5px; /* 버튼 둥근 모서리 추가 */
+    background-color: #555; /* 버튼 배경색 변경 */
+    color: white; /* 버튼 글자색 변경 */
+  }
+  /* 레코드 갯수 레이블 색상 변경 */
+  #recordLabel {
+    color: yellow; /* 여기에서 원하는 색상으로 변경하세요 */
+  }
+</style>
+<script>
+  function reloadIframes() {
+    const iframes = document.querySelectorAll('iframe');
+    iframes.forEach(iframe => {
+      iframe.src = iframe.src; // 현재 src로 iframe 리로드
+    });
+  }
+
+  // JSON 데이터를 가져오고 화면에 표시하는 함수
+  async function fetchData() {
+    try {
+      const response = await fetch('/db/query?q=select%20count(*)%20from%20fft'); // 여기에 URL을 입력하세요
+      const data = await response.json();
+      if (data.success && data.data.rows.length > 0) {
+        const recordCount = data.data.rows[0][0];
+        document.getElementById('recordLabel').innerText = `레코드 갯수: ${recordCount.toLocaleString()}`;
+      }
+    } catch (error) {
+      console.error('Failed to fetch data:', error);
+    }
+  }
+
+  // 1초마다 fetchData 함수 호출
+  setInterval(fetchData, 1000);
+
+  setInterval(reloadIframes, 10000);
+</script>
+</head>
+<body>
+<div class="iframe-title">
+<h1>실시간 Data Visualizatoin 데모 </h1>
+<h2 id="recordLabel">레코드 갯수: 0</h2> <!-- 레코드 갯수를 표시할 요소 -->
+<button onclick="reloadIframes()">실시간 통계 다시 그리기 </button>
+</div>
+<div class="iframe-container">
+  
+  <iframe src="/db/tql/neo-apps/realtime-fft/alarm-data-stat.tql?axis=vib-x2&title=X AXIS Statistics (10 sec)&range=10s&precision=2s"></iframe>
+  <iframe src="/db/tql/neo-apps/realtime-fft/alarm-data-stat.tql?axis=vib-y2&title=Y AXIS Statistics (10 sec)&range=10s&precision=2s"></iframe>
+  <iframe src="/db/tql/neo-apps/realtime-fft/alarm-data-stat.tql?axis=vib-z2&title=Z AXIS Statistics (10 sec)&range=10s&precision=2s"></iframe>
+</div>
+<div class="iframe-container">
+  <iframe src="/db/tql/neo-apps/realtime-fft/alarm-peak-publish.tql?axis=vib-x2&peak=200&title=X AXIS Peak Alarm (10 sec)&range=10s&precision=2s"></iframe>
+  <iframe src="/db/tql/neo-apps/realtime-fft/alarm-peak-publish.tql?axis=vib-y2&peak=300&title=Y AXIS Peak Alarm (10 sec)&range=10s&precision=2s"></iframe>
+  <iframe src="/db/tql/neo-apps/realtime-fft/alarm-peak-publish.tql?axis=vib-z2&peak=400&title=Z AXIS Peak Alarm (10 sec)&range=10s&precision=2s"></iframe>
+</div>
+</body>
+</html>

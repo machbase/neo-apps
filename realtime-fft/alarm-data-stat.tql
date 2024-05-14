@@ -1,0 +1,60 @@
+SQL_SELECT(
+    'time', 'value',
+    from('fft', param('axis') ?? 'vib-x2'),
+    between(strSprintf('now-%s', param('range') ?? '10s') , 'now')
+)
+GROUP(
+    by( value(0),
+        timewindow(time(strSprintf('now-%s', param('range') ?? '10s')), time('now'), period(param('precision') ?? "2s")),
+        "TIME"
+    ),
+    max( value(1),
+          "PEAK"
+    ),
+    rms( value(1),
+          "RMS"
+    ),
+    min( value(1),
+          "TROUGH"
+    )
+    
+)
+MAPVALUE(0, strTime(value(0), 'DEFAULT', tz('Local')))
+CHART(
+    chartOption(strSprintf(`{
+        title: {
+            text: '%s',
+            left: 'center'
+        },
+        xAxis: {
+            type: "category",
+            data: column(0)
+        },
+        yAxis: {
+               type: 'value'
+        },
+        legend: {
+          show: true,
+            left: 'center',
+            top : 'bottom'
+
+        },  
+        series: [
+            {
+                name: 'PEAK',
+                type: "line",
+                data: column(1)
+            },
+            {
+                name : 'RMS',
+                type: "line",
+                data: column(2)
+            },
+            {
+                name : 'TROUGH',
+                type: "line",
+                data: column(3)
+            }
+        ]
+    }`, param('title') ?? 'X'))
+)

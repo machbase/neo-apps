@@ -1,0 +1,4 @@
+FAKE( oscillator( freq(15, 10), freq(400, 2), freq(220, 2), freq(35, 3), freq(0.5, 20), range("now", "1s", "1ms") ))
+MAPVALUE(1, (random() < 0.0001) ? value(1) * 100: value(1))
+PUSHVALUE(0, "vib-z2", "name")
+APPEND(table("fft"))
