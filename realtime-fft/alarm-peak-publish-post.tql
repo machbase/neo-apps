@@ -1,0 +1,66 @@
+SQL_SELECT(
+    'time', 'value',
+    from('fft', param('axis') ?? 'vib-z2'),
+    between(strSprintf('now-%s', param('range') ?? '20s') , 'now')
+)
+GROUP(
+    by( value(0),
+        timewindow(time(strSprintf('now-%s', param('range') ?? '20s')), time('now'), period(param('precision') ?? "1s")),
+        "TIME"
+    ),
+    max( value(1),
+          "PEAK ALARM"
+    )
+)
+MAPVALUE(0, strTime(value(0), 'DEFAULT', tz('Local')))
+
+WHEN(value(1) > parseFloat(param('peak') ?? 100),
+      doHttp("POST", 
+      "https://chat.googleapis.com/v1/spaces/AAAA6WEdswk/messages?key=AIzaSyDdI0hCZtE6vySjMm-WEfRq3CPzqKqqsHI&token=yLG5r1akvF5_AzmsSgtS4QMlzTpwIwyCWZK9RfmC75Y", 
+        strSprintf(`{"text": "%s peak alarm (%.2f)!..: more than %.2f"}`, param('axis') ?? "no tag", value(1), parseFloat(param('peak') ?? 100)),
+        "Content-Type: application/json",
+        "X-Custom-Header: notification" )
+    )
+
+MAPVALUE(1, value(1) > parseFloat(param('peak') ?? 100) ? value(1) : 0)
+
+CHART(
+    chartOption(strSprintf(`{
+        tooltip: {
+            trigger: 'item'
+        },
+         grid: {
+            left: '10%%', 
+            right: '10%%',
+            top: '10%%',  
+            bottom: '10%%'
+        },
+        title: {
+            text: '%s',
+            left: 'center'
+        },
+        xAxis: {
+            type: "category",
+            data: column(0)
+        },
+        yAxis: {
+               type: 'value'
+        },
+        legend: {
+          show: true,
+            left: 'center',
+            top : 'bottom'
+
+        },  
+        series: [
+            {
+                name: 'PEAK  ALARM (> %.2f)',
+                type: "scatter",
+                data: column(1),
+                itemStyle: {
+                color: 'red' // 라인 색상
+                }
+            }
+        ]
+    }`, (param('title') ?? 'X'), parseFloat(param('peak') ?? 100)))
+)
