@@ -16,7 +16,7 @@ MAPVALUE(0, strTime(value(0), 'DEFAULT', tz('Local')))
 
 WHEN(value(1) > parseFloat(param('peak') ?? 100),
       doHttp("POST", 
-      "https://chat.googleapis.com/v1/spaces/AAAA6WEdswk/messages?key=AIzaSyDdI0hCZtE6vySjMm-WEfRq3CPzqKqqsHI&token=yLG5r1akvF5_AzmsSgtS4QMlzTpwIwyCWZK9RfmC75Y", 
+      "https://chat.googleapis.com/v1/spaces/AAAA6WEdswk/messages?key=XXXX", 
         strSprintf(`{"text": "%s peak alarm (%.2f)!..: more than %.2f"}`, param('axis') ?? "no tag", value(1), parseFloat(param('peak') ?? 100)),
         "Content-Type: application/json",
         "X-Custom-Header: notification" )
