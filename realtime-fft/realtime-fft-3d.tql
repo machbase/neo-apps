@@ -1,6 +1,6 @@
 SQL_SELECT(
     'time', 'value',
-    from('fft', param('axis') ?? 'vib-x2'),
+    from('fft', param('axis') ?? 'vib-y2'),
     between('last-' + (param('range') ?? '10s'), 'last')
 )
 MAPKEY( roundTime(value(0), '500ms') )
@@ -8,12 +8,64 @@ GROUPBYKEY()
 FFT(minHz(0), maxHz(1000))
 FLATTEN()
 PUSHKEY('fft')
-CHART_BAR3D(
-      title(param('title') ?? 'X axis FFT in 3D'),
-      xAxis(0, 'time', 'time'),
-      yAxis(1, 'Hz'),
-      zAxis(2, 'Amp'),
-      size('500px', '500px'), visualMap(0, 1.5), theme('westeros')
-     
-)
+PUSHVALUE(0, list(value(0), value(1), value(2)))
+POPVALUE(1, 2, 3)
 
+CHART(
+    chartOption(strSprintf(`{
+        "xAxis3D": {
+            "name": "time",
+            "type": "time",
+            "show": true,
+        },
+        "yAxis3D": {
+            "name": "Hz",
+            "type": "value",
+            "show": true
+        },
+        "zAxis3D": {
+            "name": "Amp",
+            "type": "value",
+            "show": true
+        },
+        "grid3D": {
+            "boxWidth": 70,
+            "boxHeight":70,
+            "boxDepth": 70,
+            "right":  "10%%",
+            
+            "viewControl": {
+                "projection": "orthographic",
+                "autoRotate": false,
+                "speed": 0
+            }
+        },
+        "title": {
+            "text": "%s",
+            "left": 'center'
+
+        },
+        "visualMap": [{
+            "type": "continuous",
+            "calculable": true,
+            "min": 0,
+            "max": 10,
+            "inRange": {
+                "color": ["#313695", "#4575b4", "#74add1", "#abd9e9", "#e0f3f8", "#ffffbf", "#fee090", "#fdae61", "#f46d43", "#d73027", "#a50026"]
+            }
+        }],
+        "tooltip": {
+            "show": true,
+            "trigger": "axis"
+        },
+        "series": [{
+            "type": "bar3D",
+            "coordinateSystem": "cartesian3D",
+            "data":column(0),
+            "shading": "lambert",
+            "itemStyle": {
+                "opacity": 1
+            }
+        }]  
+    }`, param('title') ?? "X axis FFT in 3D"))
+)
