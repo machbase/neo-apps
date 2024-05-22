@@ -16,7 +16,7 @@ CHART(
         "xAxis3D": {
             "name": "time",
             "type": "time",
-            "show": true,
+            "show": true
         },
         "yAxis3D": {
             "name": "Hz",
