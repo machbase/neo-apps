@@ -12,6 +12,7 @@ PUSHVALUE(0, list(value(0), value(1), value(2)))
 POPVALUE(1, 2, 3)
 
 CHART(
+    plugins("gl"),
     chartOption(strSprintf(`{
         "xAxis3D": {
             "name": "time",
