@@ -1,0 +1,6 @@
+FAKE(arrange(1, 60*24*30 * 3, 1))
+SET(basetime, parseTime("2023-01-01 00:00:00", "DEFAULT", tz("LOCAL")))
+PUSHVALUE(0, 'tag-B', 'name')
+PUSHVALUE(1, timeAdd($basetime,  value(1) * 60000000000))
+MAPVALUE(2, (value(2) % 100) + random() * 100)
+APPEND(table('mytab_B'))
