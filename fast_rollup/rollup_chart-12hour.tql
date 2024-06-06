@@ -1,0 +1,30 @@
+SQL(`
+select to_char(rollup('hour', 12, time, '2023-01-01'), , 'YYYY-MM-DD') as time, avg(value) from mybigdata 
+where name = 'pressure' and time between TO_DATE('2023-01-1') AND TO_DATE('2023-05-31 23:59:59') 
+group by time order by time;
+
+`)
+
+CHART(
+    chartOption(strSprintf(`{
+        tooltip: {
+            trigger: 'item'
+        },
+       title: {
+            text: '%s',
+            left: 'center'
+        },
+       xAxis: {
+            type: "category",
+          
+            data: column(0)
+        },
+        yAxis: {},
+        series: [
+            {
+                type: "line",
+                data: column(1)
+            }
+        ]
+    }`,param('title') ?? '12 hour average for 6 month'))
+)
