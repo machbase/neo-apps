@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="ko">
+<html lang="en">
 <head>
 <meta charset="UTF-8">
 <title>Customized FFT Analysis</title>
@@ -57,7 +57,7 @@
     const iframes = document.querySelectorAll('iframe');
     iframes.forEach(iframe => {
       const baseUrl = '/db/tql/neo-apps/realtime-fft/custom-fft-3d.tql';
-      iframe.src = `${baseUrl}?axis=vib-${axis_value}&range=last-${range_value}s&precision=${precision_value}ms&minhz=${minhz_value}&maxhz=${maxhz_value}&theme=${theme_value}`; // URL에 파라미터 추가
+      iframe.src = `${baseUrl}?axis=vib-${axis_value}&range=last-${range_value}s&precision=${precision_value}ms&minhz=${minhz_value}&maxhz=${maxhz_value}&theme=${theme_value}`;
     });
   }
   function reloadIframes_csv() {
@@ -70,81 +70,81 @@
     const iframes = document.querySelectorAll('iframe');
     iframes.forEach(iframe => {
       const baseUrl = '/db/tql/neo-apps/realtime-fft/custom-fft-3d-download.tql';
-      iframe.src = `${baseUrl}?axis=vib-${axis_value}&range=last-${range_value}s&precision=${precision_value}ms&minhz=${minhz_value}&maxhz=${maxhz_value}&theme=${theme_value}`; // URL에 파라미터 추가
+      iframe.src = `${baseUrl}?axis=vib-${axis_value}&range=last-${range_value}s&precision=${precision_value}ms&minhz=${minhz_value}&maxhz=${maxhz_value}&theme=${theme_value}`;
     });
   }
 </script>
 </head>
 <body>
 <div class="iframe-title">
-  <h1>옵션 기반 FFT(고속 푸리에 변환) 데모 3D</h1>
+  <h1>Option-based FFT (Fast Fourier Transform) Demo 3D</h1>
   AXIS
   <select id="axis">
-    <option value="x" selected>X 축 분석</option>
-    <option value="y">Y 축 분석</option>
-    <option value="z">Z 축 분석</option>
+    <option value="x" selected>X Axis Analysis</option>
+    <option value="y">Y Axis Analysis</option>
+    <option value="z">Z Axis Analysis</option>
   </select>
-  분석시간
+  Analysis Time
   <select id="range">
-    <option value="2"> 최근 2 초간 </option>
-    <option value="3"> 최근 3 초간 </option>
-    <option value="5"> 최근 5 초간 </option>
-    <option value="10" selected> 최근 10 초간 </option>
-    <option value="20" > 최근 20 초간 </option>
-    <option value="30" > 최근 30 초간 </option>
-    <option value="60" > 최근 60 초간  </option>
+    <option value="2">Last 2 seconds</option>
+    <option value="3">Last 3 seconds</option>
+    <option value="5">Last 5 seconds</option>
+    <option value="10" selected>Last 10 seconds</option>
+    <option value="20">Last 20 seconds</option>
+    <option value="30">Last 30 seconds</option>
+    <option value="60">Last 60 seconds</option>
   </select>
-  분석정밀도 
+  Analysis Precision
   <select id="precision">
-    <option value="50">  50ms 주기  </option>
-    <option value="100"> 100ms 주기  </option>
-    <option value="200"> 200ms 주기  </option>
-    <option value="500"  selected> 500ms 주기  </option>
-    <option value="1000"> 1000ms 주기  </option>
+    <option value="50">50ms interval</option>
+    <option value="100">100ms interval</option>
+    <option value="200">200ms interval</option>
+    <option value="500" selected>500ms interval</option>
+    <option value="1000">1000ms interval</option>
   </select>
-  최소주파수
+  Minimum Frequency
   <select id="minhz">
-    <option value="0" selected>  0Hz  </option>
-    <option value="100" >  100Hz  </option>
-    <option value="200" >  200Hz  </option>
-    <option value="300" >  300Hz  </option>
-    <option value="400" >  400Hz  </option>
-    <option value="500" >  500Hz  </option>
-    <option value="600" >  600Hz  </option>
-    <option value="700" >  700Hz  </option>
+    <option value="0" selected>0Hz</option>
+    <option value="100">100Hz</option>
+    <option value="200">200Hz</option>
+    <option value="300">300Hz</option>
+    <option value="400">400Hz</option>
+    <option value="500">500Hz</option>
+    <option value="600">600Hz</option>
+    <option value="700">700Hz</option>
   </select>
-  최대주파수
+  Maximum Frequency
   <select id="maxhz">
-    <option value="200" >  200Hz  </option>
-    <option value="300" >  300Hz  </option>
-    <option value="400" >  400Hz  </option>
-    <option value="500" >  500Hz  </option>
-    <option value="600" >  600Hz  </option>
-    <option value="700" >  700Hz  </option>
-    <option value="800" >  800Hz  </option>
-    <option value="900" >  900Hz  </option>
-    <option value="1000" selected>  1000Hz  </option>
+    <option value="200">200Hz</option>
+    <option value="300">300Hz</option>
+    <option value="400">400Hz</option>
+    <option value="500">500Hz</option>
+    <option value="600">600Hz</option>
+    <option value="700">700Hz</option>
+    <option value="800">800Hz</option>
+    <option value="900">900Hz</option>
+    <option value="1000" selected>1000Hz</option>
   </select>
-  챠트테마 
+  Chart Theme
   <select id="theme">
-    <option value="white" selected>  white  </option>
-    <option value="dark" >  dark  </option>
-    <option value="chalk" > chalk   </option>
-    <option value="essos" > essos   </option>
-    <option value="infographic" >  infographic  </option>
-    <option value="macarons" >  macarons  </option>
-    <option value="purple-passion" >  purple-passion  </option>
-    <option value="roma" > roma   </option>
-    <option value="romantic" > romantic   </option>
-    <option value="shine" >  shine  </option>
-    <option value="vintage" > vintage   </option>
-    <option value="walden" >  walden  </option>
-    <option value="westeros" > westeros   </option>
-    <option value="wonderland" > wonderland   </option>
+    <option value="white" selected>white</option>
+    <option value="dark">dark</option>
+    <option value="chalk">chalk</option>
+    <option value="essos">essos</option>
+    <option value="infographic">infographic</option>
+    <option value="macarons">macarons</option>
+    <option value="purple-passion">purple-passion</option>
+    <option value="roma">roma</option>
+    <option value="romantic">romantic</option>
+    <option value="shine">shine</option>
+    <option value="vintage">vintage</option>
+    <option value="walden">walden</option>
+    <option value="westeros">westeros</option>
+    <option value="wonderland">wonderland</option>
   </select>
 <br>
-  <button onclick="reloadIframes()">실시간 데이터로 FFT 그래프로 다시 그리기</button>
-  <button onclick="reloadIframes_csv()">CSV로 다운로드 </button>
+  <button onclick="reloadIframes()">Redraw FFT Graph with Real-time Data</button>
+  <button onclick="reloadIframes_csv()">Download as CSV</button>
 </div>
 <div class="iframe-container">
   <iframe src="/db/tql/neo-apps/realtime-fft/custom-fft-3d.tql"></iframe>
