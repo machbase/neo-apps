@@ -50,6 +50,13 @@
             margin: 10px 0;
             color: #333;
         }
+        #currentUrl {
+            font-size: 14px;
+            text-align: center;
+            margin: 5px 0;
+            color: #555;
+            word-wrap: break-word;
+        }
         .controls {
             display: flex;
             justify-content: center;
@@ -103,15 +110,18 @@
         <div class="image-container">
             <img id="currentImage" alt="Current image" onerror="handleImageError(this)">
             <div class="image-loading" id="imageLoading">Loading image...</div>
+
         </div>
         <div class="timeline-container">
             <div id="currentTime"></div>
+            <div id="currentUrl"></div>
             <input type="range" id="timeSlider" min="0" max="100" value="0" disabled>
             <div class="status" id="status"></div>
             <div class="controls">
                 <button id="loadButton" onclick="loadImages()">Load Images</button>
                 <button id="playButton" onclick="playSlideshow()" disabled>Play</button>
                 <button id="pauseButton" onclick="pauseSlideshow()" disabled>Pause</button>
+                <button id="downloadButton" onclick="downloadImage()" disabled>Download</button>
             </div>
         </div>
     </div>
@@ -125,6 +135,7 @@
         const elements = {
             slider: document.getElementById('timeSlider'),
             currentTime: document.getElementById('currentTime'),
+            currentUrl: document.getElementById('currentUrl'),
             currentImage: document.getElementById('currentImage'),
             loading: document.getElementById('loading'),
             imageLoading: document.getElementById('imageLoading'),
@@ -171,7 +182,7 @@
 
             try {
                 const query = encodeURIComponent('select time,image from complex');
-                const response = await fetch(`http://127.0.0.1:5654/db/query?q=${query}`);
+                const response = await fetch(`/db/query?q=${query}`);
 
                 if (!response.ok) {
                     throw new Error(`HTTP error! status: ${response.status}`);
@@ -239,6 +250,15 @@
         function showImage(index) {
             if (images.length === 0) return;
 
+            // 현재 웹사이트의 프로토콜, 호스트명, 포트를 결합하여 문자열 생성
+            const protocol = window.location.protocol; // ex: 'http:' or 'https:'
+            const host = window.location.hostname; // ex: 'example.com'
+            const port = window.location.port; // ex: '8080' (포트 정보가 없을 경우 빈 문자열)
+
+            // 최종 스트링 생성
+            const serverInfo = `${protocol}//${host}${port ? `:${port}` : ''}`;
+            
+
             clearError();
             currentIndex = index;
             const image = images[currentIndex];
@@ -246,11 +266,29 @@
             elements.imageLoading.style.display = 'block';
             elements.currentTime.textContent = image.time.toLocaleString();
 
-            elements.currentImage.src =
-                `http://127.0.0.1:5654/db/query/file/complex/image/${image.imageId}`;
+            const imageUrl = `/db/query/file/complex/image/${image.imageId}?tag=camera1`;
+            elements.currentImage.src = imageUrl;
+
+            elements.currentUrl.textContent = serverInfo + `${imageUrl}`;
+
+            // Enable Download Button and Set URL
+            const downloadButton = document.getElementById('downloadButton');
+            downloadButton.disabled = false;
+            downloadButton.dataset.url = imageUrl;
 
             elements.slider.value = currentIndex;
             updateStatus();
+        }
+
+        function downloadImage() {
+            const downloadButton = document.getElementById('downloadButton');
+            const url = downloadButton.dataset.url;
+            if (!url) return;
+
+            const anchor = document.createElement('a');
+            anchor.href = url;
+            anchor.download = `image_${currentIndex + 1}.jpg`;
+            anchor.click();
         }
 
         function playSlideshow() {
@@ -316,6 +354,7 @@
 
         // Initialize status
         updateStatus();
+        loadImages();
     </script>
 </body>
 </html>
