@@ -14,7 +14,7 @@ CHART(
         },
        title: {
             text: 'Z axis FFT',
-            left: 'center'
+            left: 'left'
         },
        xAxis: {
             type: "category",
